@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/dl_v_hp_main"
+        tools:context=".pages.Homepage">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tb_v_hp_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/primary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ToolbarTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="Welcome, User" />
+
+            <Button
+                android:id="@+id/btn_v_hp_makePost"
+                android:layout_width="340dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="161dp"
+                android:layout_marginEnd="159dp"
+                android:layout_marginBottom="20dp"
+                android:text="Make a Post"
+                android:textColor="@color/white"
+                android:theme="@style/Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/tertiary" />
+
+            <Button
+                android:id="@+id/btn_v_hp_search"
+                android:layout_width="340dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="161dp"
+                android:layout_marginEnd="159dp"
+                android:layout_marginBottom="8dp"
+                android:text="Search"
+                android:textColor="@color/white"
+                android:theme="@style/Button"
+                app:layout_constraintBottom_toTopOf="@+id/btn_v_hp_makePost"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/tertiary" />
+
+            <TextView
+                android:id="@+id/tv_v_hp_recentPostTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="142dp"
+                android:layout_marginTop="19dp"
+                android:layout_marginEnd="143dp"
+                android:text="Recent Posts:"
+                android:theme="@style/TextViewL"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tb_v_hp_toolbar" />
+
+            <ListView
+                android:id="@+id/lv_v_hp_recentPosts"
+                android:layout_width="match_parent"
+                android:layout_height="525dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_v_hp_recentPostTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nv_v_hp_nav"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:menu="@menu/navigation_menu"
+            app:headerLayout="@layout/nav_header"
+            app:itemTextColor="@color/nav_current_item"
+            app:itemTextAppearance="@style/NavMenu" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="bottom"
+                android:padding="16dp" />
+
+            <TextView
+                android:id="@+id/tv_v_hp_curLoggedIn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/archivo"
+                android:gravity="bottom"
+                android:paddingStart="10sp"
+                android:paddingBottom="10sp"
+                android:text="Logged in as: User"
+                android:textColor="@color/secondary_text_material_light"
+                android:textSize="20sp" />
+
+        </com.google.android.material.navigation.NavigationView>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</layout>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".pages.RegisterPage">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Register"
+            android:theme="@style/ToolbarTitle" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <TextView
+        android:id="@+id/tv_v_rp_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="35dp"
+        android:text="Username:"
+        android:textStyle="bold"
+        android:theme="@style/fieldTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_v_rp_name" />
+
+    <EditText
+        android:id="@+id/et_v_rp_username"
+        android:layout_width="233dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="40dp"
+        android:ems="10"
+        android:inputType="textNoSuggestions"
+        android:theme="@style/EditText"
+        android:background="@drawable/round_bg"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/tv_v_rp_username"
+        app:layout_constraintTop_toBottomOf="@+id/et_v_rp_name" />
+
+    <EditText
+        android:id="@+id/et_v_rp_password"
+        android:layout_width="233dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="40dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:theme="@style/EditText"
+        android:background="@drawable/round_bg"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/tv_v_rp_password"
+        app:layout_constraintTop_toBottomOf="@+id/et_v_rp_email" />
+
+    <TextView
+        android:id="@+id/tv_v_rp_password"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="37dp"
+        android:text="Password:"
+        android:textStyle="bold"
+        android:theme="@style/fieldTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_v_rp_email" />
+
+    <Button
+        android:id="@+id/btn_v_rp_register"
+        android:layout_width="340dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="161dp"
+        android:layout_marginEnd="159dp"
+        android:layout_marginBottom="8dp"
+        android:text="Register"
+        android:textColor="@color/white"
+        android:theme="@style/Button"
+        app:layout_constraintBottom_toTopOf="@+id/btn_v_rp_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="@color/tertiary" />
+
+    <Button
+        android:id="@+id/btn_v_rp_back"
+        android:layout_width="340dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="161dp"
+        android:layout_marginEnd="159dp"
+        android:layout_marginBottom="20dp"
+        android:text="Back"
+        android:textColor="@color/white"
+        android:theme="@style/Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="@color/tertiary" />
+
+    <TextView
+        android:id="@+id/tv_v_rp_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="88dp"
+        android:text="Password is Incorrect."
+        android:textAppearance="@style/ErrorMsg"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_v_rp_confirm" />
+
+    <EditText
+        android:id="@+id/et_v_rp_confirm"
+        android:layout_width="233dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:theme="@style/EditText"
+        android:background="@drawable/round_bg"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_v_rp_confirm"
+        app:layout_constraintTop_toBottomOf="@+id/et_v_rp_password" />
+
+    <TextView
+        android:id="@+id/tv_v_rp_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:text="Confirm:"
+        android:textStyle="bold"
+        android:theme="@style/fieldTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_v_rp_password" />
+
+    <EditText
+        android:id="@+id/et_v_rp_email"
+        android:layout_width="233dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="40dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:theme="@style/EditText"
+        android:background="@drawable/round_bg"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_v_rp_email"
+        app:layout_constraintTop_toBottomOf="@+id/et_v_rp_username" />
+
+    <TextView
+        android:id="@+id/tv_v_rp_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="35dp"
+        android:text="Email:"
+        android:textStyle="bold"
+        android:theme="@style/fieldTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_v_rp_username" />
+
+    <EditText
+        android:id="@+id/et_v_rp_name"
+        android:layout_width="233dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="40dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:theme="@style/EditText"
+        android:background="@drawable/round_bg"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_v_rp_name"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <TextView
+        android:id="@+id/tv_v_rp_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="45dp"
+        android:text="Name:"
+        android:textStyle="bold"
+        android:theme="@style/fieldTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

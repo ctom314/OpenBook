@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ToolbarTitle">
+        <item name="android:textSize">30sp</item>
+        <item name="android:fontFamily">@font/archivo_black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/secondary_text_material_light</item>
+    </style>
+
+    <!-- TextViews -->
+    <style name="TextViewL">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/archivo</item>
+        <item name="android:textColor">@color/secondary_text_material_light</item>
+    </style>
+    <style name="TextViewM">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/archivo</item>
+        <item name="android:textColor">@color/secondary_text_material_light</item>
+    </style>
+    <style name="ErrorMsg">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/archivo</item>
+        <item name="android:textColor">@color/error</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Field TVs Styles -->
+    <style name="fieldTV">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/archivo</item>
+        <item name="android:textColor">@color/secondary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Post Styles -->
+    <style name="postHeader">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/archivo</item>
+        <item name="android:textColor">@color/secondary</item>
+    </style>
+    <style name="postContent">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/archivo</item>
+        <item name="android:textColor">@color/secondary_text_material_light</item>
+    </style>
+
+
+    <!-- EditTexts -->
+    <style name="EditText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/archivo</item>
+        <item name="android:textColor">@color/secondary_text_material_light</item>
+    </style>
+    <style name="PostContents">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/archivo</item>
+        <item name="android:textColor">@color/secondary_text_material_light</item>
+    </style>
+
+    <!-- Buttons -->
+    <style name="Button">
+        <item name="android:background">@drawable/btn_default_material</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">@color/secondary_text_material_light</item>
+        <item name="android:fontFamily">@font/archivo_black</item>
+        <item name="android:backgroundTint">@color/secondary</item>
+        <item name="rippleColor">@color/tertiary</item>
+    </style>
+
+    <!-- Spinner -->
+    <style name="SpinnerItem">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/archivo</item>
+        <item name="android:textColor">@color/secondary_text_material_light</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Toolbar/Nav View -->
+    <style name="NavMenu">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/archivo</item>
+        <item name="android:textColor">@color/secondary_text_material_light</item>
+    </style>
+
+</resources>
