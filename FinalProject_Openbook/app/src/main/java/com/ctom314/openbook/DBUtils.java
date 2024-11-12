@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DBUtils extends SQLiteOpenHelper
 {
     private static final String DATABASE_NAME = "OpenBook";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     // Table names
     private static final String USERS_TABLE = "Users";
@@ -111,7 +111,6 @@ public class DBUtils extends SQLiteOpenHelper
         SQLiteDatabase db = this.getReadableDatabase();
 
         // Get account using username
-        // Prevent SQL injection
         String query = "SELECT * FROM " + USERS_TABLE + " WHERE username = ?;";
         Cursor cursor = db.rawQuery(query, new String[] {username});
 
@@ -154,7 +153,6 @@ public class DBUtils extends SQLiteOpenHelper
         SQLiteDatabase db = this.getReadableDatabase();
 
         // Get account using username
-        // Prevent SQL injection
         String query = "SELECT * FROM " + USERS_TABLE + " WHERE username = ?;";
         Cursor cursor = db.rawQuery(query, new String[] {username});
 
@@ -172,7 +170,6 @@ public class DBUtils extends SQLiteOpenHelper
         SQLiteDatabase db = this.getReadableDatabase();
 
         // Get account using username
-        // Prevent SQL injection
         String query = "SELECT * FROM " + USERS_TABLE + " WHERE username = ?;";
         Cursor cursor = db.rawQuery(query, new String[] {username});
 
@@ -200,7 +197,6 @@ public class DBUtils extends SQLiteOpenHelper
         SQLiteDatabase db = this.getReadableDatabase();
 
         // Get account using username
-        // Prevent SQL injection
         String query = "SELECT userId FROM " + USERS_TABLE + " WHERE username = ?;";
         Cursor cursor = db.rawQuery(query, new String[] {username});
 
@@ -222,7 +218,6 @@ public class DBUtils extends SQLiteOpenHelper
         SQLiteDatabase db = this.getReadableDatabase();
 
         // Get account using userId
-        // Prevent SQL injection
         String query = "SELECT username FROM " + USERS_TABLE + " WHERE userId = ?;";
         Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(userId)});
 
@@ -260,7 +255,6 @@ public class DBUtils extends SQLiteOpenHelper
         SQLiteDatabase db = this.getReadableDatabase();
 
         // Get book using title
-        // Prevent SQL injection
         String query = "SELECT * FROM " + BOOKS_TABLE + " WHERE bookId = ?;";
         Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(bookId)});
 
@@ -287,7 +281,6 @@ public class DBUtils extends SQLiteOpenHelper
         SQLiteDatabase db = this.getReadableDatabase();
 
         // Get book using title
-        // Prevent SQL injection
         String query = "SELECT bookId FROM " + BOOKS_TABLE + " WHERE title = ?;";
         Cursor cursor = db.rawQuery(query, new String[] {title});
 
@@ -323,6 +316,22 @@ public class DBUtils extends SQLiteOpenHelper
         return books;
     }
 
+    // Check if provided book title already exists in db
+    public boolean bookAlreadyAdded(String title, String author)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Get book using title
+        String query = "SELECT * FROM " + BOOKS_TABLE + " WHERE title = ? AND author = ?;";
+        Cursor cursor = db.rawQuery(query, new String[] {title, author});
+
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        db.close();
+
+        return exists;
+    }
+
     // =============================================================================================
     //                                          POSTS
     // =============================================================================================
@@ -343,6 +352,34 @@ public class DBUtils extends SQLiteOpenHelper
         db.close();
     }
 
+    // Get post with post id
+    public Post getPost(int postId)
+    {
+        Post p = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Get post using postId
+        String query = "SELECT * FROM " + POSTS_TABLE + " WHERE postId = ?;";
+        Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(postId)});
+
+        if (cursor.moveToFirst())
+        {
+            // Get post details
+            int bookId = cursor.getInt(2);
+            String username = getUsername(cursor.getInt(1));
+            String timestamp = cursor.getString(3);
+            String content = cursor.getString(4);
+
+            // Create post object
+            p = new Post(bookId, username, timestamp, content);
+        }
+
+        cursor.close();
+        db.close();
+
+        return p;
+    }
+
     // Get post id using username and timestamp
     public int getPostId(String username, String timestamp)
     {
@@ -354,7 +391,6 @@ public class DBUtils extends SQLiteOpenHelper
         SQLiteDatabase db = this.getReadableDatabase();
 
         // Get post using userId and timestamp
-        // Prevent SQL injection
         String query = "SELECT postId FROM " + POSTS_TABLE + " WHERE userId = ? AND timestamp = ?;";
         Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(userId), timestamp});
 
@@ -427,19 +463,46 @@ public class DBUtils extends SQLiteOpenHelper
     // =============================================================================================
 
     // Add comment
-    public void addComment(Comment c)
+    public void addComment(Comment c, int postId)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-
         // Get IDs
         int userId = getUserId(c.getUsername());
-        int postId = getPostId(c.getUsername(), c.getTimestamp());
+
+        SQLiteDatabase db = this.getWritableDatabase();
 
         // Run query
-        db.execSQL("INSERT INTO " + COMMENTS_TABLE + " (postId, userId, timestamp, content) VALUES (" +
-                postId + ", " + userId + ", " + c.getTimestamp() + ", '" + c.getContent() + "');");
+        String query = "INSERT INTO " + COMMENTS_TABLE + " (postId, userId, timestamp, content) VALUES (?, ?, ?, ?);";
+        db.execSQL(query, new Object[] {postId, userId, c.getTimestamp(), c.getContent()});
 
         db.close();
+    }
+
+    // Get all replies from post
+    public ArrayList<Comment> getPostReplies(int postId)
+    {
+        ArrayList<Comment> comments = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Get all replies from post. Order by most recent.
+        String query = "SELECT * FROM " + COMMENTS_TABLE + " WHERE postId = ? ORDER BY timestamp DESC;";
+        Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(postId)});
+
+        while (cursor.moveToNext())
+        {
+            // Get comment details
+            String username = getUsername(cursor.getInt(2));
+            String timestamp = cursor.getString(3);
+            String content = cursor.getString(4);
+
+            // Create comment object
+            Comment c = new Comment(username, timestamp, content);
+            comments.add(c);
+        }
+
+        cursor.close();
+        db.close();
+
+        return comments;
     }
 
     // =============================================================================================
@@ -472,6 +535,9 @@ public class DBUtils extends SQLiteOpenHelper
             Account u4 = new Account("Charlie Frank", "cfrank99@omail.co.ca", "cfrank", hash, salt);
             Account u5 = new Account("Benjamin Jonas II", "benjones2@euromail.org", "benjones2", hash, salt);
 
+            // No post account. Just replies
+            Account u6 = new Account("Tim Trout", "ttrout@outlook.com", "ttrout", hash, salt);
+
             // Add accounts to database
             addAccount(test);
 
@@ -480,6 +546,7 @@ public class DBUtils extends SQLiteOpenHelper
             addAccount(u3);
             addAccount(u4);
             addAccount(u5);
+            addAccount(u6);
         }
     }
 
@@ -495,12 +562,16 @@ public class DBUtils extends SQLiteOpenHelper
             Book b4 = new Book("The Catcher in the Rye", "J.D. Salinger", 1951);
             Book b5 = new Book("Of Mice and Men", "John Steinbeck", 1937);
 
+            // Long title
+            Book b6 = new Book("My Grandmother Asked Me to Tell You She's Sorry", "Fredrik Backman", 2013);
+
             // Add books to database
             addBook(b1);
             addBook(b2);
             addBook(b3);
             addBook(b4);
             addBook(b5);
+            addBook(b6);
         }
     }
 
@@ -510,12 +581,12 @@ public class DBUtils extends SQLiteOpenHelper
         if (countRows(POSTS_TABLE) == 0)
         {
             // Timestamps
-            String t1 = Utilities.generateTimestamp(2024, 10, 23, 12, 45, 1);
-            String t2 = Utilities.generateTimestamp(2024, 11, 9, 13, 1, 21);
-            String t3 = Utilities.generateTimestamp(2024, 11, 8, 9, 30, 45);
-            String t4 = Utilities.generateTimestamp(2024, 11, 8, 9, 34, 12);
-            String t5 = Utilities.generateTimestamp(2024, 11, 1, 17, 59, 53);
-            String t6 = Utilities.generateTimestamp(2024, 11, 5, 8, 12, 34);
+            String t1 = Utilities.makeTimestamp(2024, 10, 23, 12, 45, 1);
+            String t2 = Utilities.makeTimestamp(2024, 11, 9, 13, 1, 21);
+            String t3 = Utilities.makeTimestamp(2024, 11, 8, 9, 30, 45);
+            String t4 = Utilities.makeTimestamp(2024, 11, 8, 9, 34, 12);
+            String t5 = Utilities.makeTimestamp(2024, 11, 1, 17, 59, 53);
+            String t6 = Utilities.makeTimestamp(2024, 11, 5, 8, 12, 34);
 
             // Posts
             Post p1 = new Post(1, "tjenkins", t1, "This book is amazing!");
@@ -538,7 +609,86 @@ public class DBUtils extends SQLiteOpenHelper
     // Comments
     private void initComments()
     {
+        if (countRows(COMMENTS_TABLE) == 0)
+        {
+            // Timestamps
+            String t1_1 = Utilities.makeTimestamp(2024, 10, 23, 13, 5, 32);
+            String t1_2 = Utilities.makeTimestamp(2024, 10, 23, 15, 42, 10);
+            String t1_3 = Utilities.makeTimestamp(2024, 10, 24, 10, 18, 47);
 
+            String t2_1 = Utilities.makeTimestamp(2024, 11, 9, 13, 45, 14);
+            String t2_2 = Utilities.makeTimestamp(2024, 11, 9, 17, 20, 51);
+            String t2_3 = Utilities.makeTimestamp(2024, 11, 10, 12, 33, 9);
+            String t2_4 = Utilities.makeTimestamp(2024, 11, 10, 14, 5, 22);
+
+            String t3_1 = Utilities.makeTimestamp(2024, 11, 8, 9, 45, 12);
+            String t3_2 = Utilities.makeTimestamp(2024, 11, 8, 12, 10, 34);
+            String t3_3 = Utilities.makeTimestamp(2024, 11, 9, 14, 55, 20);
+
+            String t4_1 = Utilities.makeTimestamp(2024, 11, 8, 10, 5, 40);
+            String t4_2 = Utilities.makeTimestamp(2024, 11, 8, 13, 25, 15);
+            String t4_3 = Utilities.makeTimestamp(2024, 11, 9, 11, 5, 55);
+
+            String t5_1 = Utilities.makeTimestamp(2024, 11, 1, 18, 12, 5);
+            String t5_2 = Utilities.makeTimestamp(2024, 11, 1, 21, 45, 37);
+            String t5_3 = Utilities.makeTimestamp(2024, 11, 2, 10, 0, 15);
+
+            String t6_1 = Utilities.makeTimestamp(2024, 11, 5, 8, 30, 45);
+            String t6_2 = Utilities.makeTimestamp(2024, 11, 5, 14, 15, 0);
+            String t6_3 = Utilities.makeTimestamp(2024, 11, 6, 9, 48, 22);
+
+            // Comments
+            Comment c1_1 = new Comment("jdoe22", t1_1, "I agree!");
+            Comment c1_2 = new Comment("bwilly579", t1_2, "I disagree.");
+            Comment c1_3 = new Comment("cfrank", t1_3, "I'm not sure how I feel about this book.");
+
+            Comment c2_1 = new Comment("tjenkins", t2_1, "I love this book!");
+            Comment c2_2 = new Comment("bwilly579", t2_2, "I can't put this book down!");
+            Comment c2_3 = new Comment("cfrank", t2_3, "This book is a classic!");
+            Comment c2_4 = new Comment("ttrout", t2_4, "I've read this book at least 5 times now. It is amazing!");
+
+            Comment c3_1 = new Comment("tjenkins", t3_1, "This book is okay.");
+            Comment c3_2 = new Comment("jdoe22", t3_2, "I'm not a fan of this book.");
+            Comment c3_3 = new Comment("cfrank", t3_3, "I love this book!");
+
+            Comment c4_1 = new Comment("tjenkins", t4_1, "This book is nice, but not my favorite.");
+            Comment c4_2 = new Comment("jdoe22", t4_2, "Why do you not like this book?");
+            Comment c4_3 = new Comment("cfrank", t4_3, "I agree with you.");
+
+            Comment c5_1 = new Comment("tjenkins", t5_1, "This book is not my cup of tea.");
+            Comment c5_2 = new Comment("jdoe22", t5_2, "John Steinbeck is a great author.");
+            Comment c5_3 = new Comment("cfrank", t5_3, "I don't feel the same way.");
+
+            Comment c6_1 = new Comment("tjenkins", t6_1, "I'm not sure how I feel about this book.");
+            Comment c6_2 = new Comment("jdoe22", t6_2, "This book is a cult classic!");
+            Comment c6_3 = new Comment("cfrank", t6_3, "George Orwell was ahead of his time.");
+
+            // Add comments to database
+            addComment(c1_1, 1);
+            addComment(c1_2, 1);
+            addComment(c1_3, 1);
+
+            addComment(c2_1, 2);
+            addComment(c2_2, 2);
+            addComment(c2_3, 2);
+            addComment(c2_4, 2);
+
+            addComment(c3_1, 3);
+            addComment(c3_2, 3);
+            addComment(c3_3, 3);
+
+            addComment(c4_1, 4);
+            addComment(c4_2, 4);
+            addComment(c4_3, 4);
+
+            addComment(c5_1, 5);
+            addComment(c5_2, 5);
+            addComment(c5_3, 5);
+
+            addComment(c6_1, 6);
+            addComment(c6_2, 6);
+            addComment(c6_3, 6);
+        }
     }
 
     // Count rows in table

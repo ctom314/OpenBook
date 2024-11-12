@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,6 +49,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
 
     Intent intent_j_makePost;
     Intent intent_j_search;
+    Intent intent_j_viewPost;
 
     DBUtils dbUtils;
 
@@ -95,9 +97,11 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         // Setup intents
         //intent_j_search = new Intent(Homepage.this, SearchPage.class);
         intent_j_makePost = new Intent(Homepage.this, MakePostPage.class);
+        intent_j_viewPost = new Intent(Homepage.this, ViewPostPage.class);
 
         // Button handlers
         makePostButton();
+        recentPostClickEvent();
 
         // Setup recent posts list
         recentPosts = dbUtils.getRecentPosts(3);
@@ -128,6 +132,25 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         recentPosts = dbUtils.getRecentPosts(3);
         fillListView();
     }
+
+    // Click event for recent posts
+    private void recentPostClickEvent()
+    {
+        lv_j_hp_recentPosts.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                // Get post id and pass it to view post page
+                Post p = recentPosts.get(i);
+                intent_j_viewPost.putExtra("postId", dbUtils.getPostId(p.getUsername(), p.getTimestamp()));
+
+                // Go to view post page
+                startActivity(intent_j_viewPost);
+            }
+        });
+    }
+
 
     // Needed for navigation view to work properly
     @Override

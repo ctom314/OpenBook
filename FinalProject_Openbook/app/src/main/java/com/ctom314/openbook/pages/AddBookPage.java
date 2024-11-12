@@ -7,18 +7,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.ctom314.openbook.Book;
 import com.ctom314.openbook.DBUtils;
 import com.ctom314.openbook.R;
 import com.ctom314.openbook.Utilities;
@@ -39,7 +37,7 @@ public class AddBookPage extends AppCompatActivity implements NavigationView.OnN
     // Toolbar vars
     Toolbar tb_j_ab_toolbar;
     DrawerLayout dl_j_ab_drawer;
-    ActionBarDrawerToggle hp_drawerToggle;
+    ActionBarDrawerToggle ab_drawerToggle;
     NavigationView nv_j_ab_navMenu;
     TextView tv_v_ab_curLoggedIn;
 
@@ -69,9 +67,9 @@ public class AddBookPage extends AppCompatActivity implements NavigationView.OnN
 
         // Setup Drawer
         dl_j_ab_drawer = findViewById(R.id.dl_v_ab_main);
-        hp_drawerToggle = new ActionBarDrawerToggle(this, dl_j_ab_drawer, tb_j_ab_toolbar, R.string.nav_open, R.string.nav_close);
-        dl_j_ab_drawer.addDrawerListener(hp_drawerToggle);
-        hp_drawerToggle.syncState();
+        ab_drawerToggle = new ActionBarDrawerToggle(this, dl_j_ab_drawer, tb_j_ab_toolbar, R.string.nav_open, R.string.nav_close);
+        dl_j_ab_drawer.addDrawerListener(ab_drawerToggle);
+        ab_drawerToggle.syncState();
 
         // Setup Navigation View
         nv_j_ab_navMenu = findViewById(R.id.nv_v_ab_nav);
@@ -90,9 +88,55 @@ public class AddBookPage extends AppCompatActivity implements NavigationView.OnN
 
 
         // Button Handlers
-        // addBookButtonHandler();
+        addBookButtonHandler();
         backButtonHandler();
 
+    }
+
+    private void addBook()
+    {
+        String title = et_j_ab_title.getText().toString();
+        String author = et_j_ab_author.getText().toString();
+        String yearStr = et_j_ab_year.getText().toString();
+
+        // Trim whitespace
+        title = Utilities.trimWhitespace(title);
+        author = Utilities.trimWhitespace(author);
+        yearStr = Utilities.trimWhitespace(yearStr);
+
+        // Checks
+        if (title.isEmpty() || author.isEmpty() || yearStr.isEmpty())
+        {
+            // One or more fields are empty
+            Utilities.showError(tv_j_ab_error, "Please fill out all fields.");
+        }
+        else if (!Utilities.isValidYear(yearStr))
+        {
+            // Year is invalid
+            Utilities.showError(tv_j_ab_error, "Please enter a valid year.");
+        }
+        else if (dbUtils.bookAlreadyAdded(title, author))
+        {
+            // Book already exists
+            Utilities.showError(tv_j_ab_error, "Book has already been added.");
+        }
+        else
+        {
+            // No errors
+            Utilities.hideError(tv_j_ab_error);
+            int year = Integer.parseInt(yearStr);
+
+            // Make book
+            Book b = new Book(title, author, year);
+
+            // Add book to database
+            dbUtils.addBook(b);
+
+            Toast.makeText(this, "Book added successfully", Toast.LENGTH_SHORT).show();
+
+            // Go back to make post page
+            startActivity(intent_j_makePost);
+        }
     }
 
     // Button: Back
@@ -110,14 +154,14 @@ public class AddBookPage extends AppCompatActivity implements NavigationView.OnN
     }
 
     // Button: Add
-    private void addButtonHandler()
+    private void addBookButtonHandler()
     {
         btn_j_ab_add.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-
+                addBook();
             }
         });
     }

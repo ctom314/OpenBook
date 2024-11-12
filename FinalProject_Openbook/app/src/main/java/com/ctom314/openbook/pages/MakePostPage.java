@@ -9,19 +9,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.ctom314.openbook.BookTitleAdapter;
 import com.ctom314.openbook.DBUtils;
+import com.ctom314.openbook.Post;
 import com.ctom314.openbook.R;
 import com.ctom314.openbook.Utilities;
 import com.google.android.material.navigation.NavigationView;
@@ -42,14 +41,14 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
     // Toolbar vars
     Toolbar tb_j_mp_toolbar;
     DrawerLayout dl_j_mp_drawer;
-    ActionBarDrawerToggle hp_drawerToggle;
+    ActionBarDrawerToggle mp_drawerToggle;
     NavigationView nv_j_mp_navMenu;
     TextView tv_v_mp_curLoggedIn;
 
     Intent intent_j_addBook;
     Intent intent_j_homepage;
 
-    ArrayAdapter<String> adapter;
+    BookTitleAdapter adapter;
 
     DBUtils dbUtils;
 
@@ -75,9 +74,9 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
 
         // Setup Drawer
         dl_j_mp_drawer = findViewById(R.id.dl_v_mp_main);
-        hp_drawerToggle = new ActionBarDrawerToggle(this, dl_j_mp_drawer, tb_j_mp_toolbar, R.string.nav_open, R.string.nav_close);
-        dl_j_mp_drawer.addDrawerListener(hp_drawerToggle);
-        hp_drawerToggle.syncState();
+        mp_drawerToggle = new ActionBarDrawerToggle(this, dl_j_mp_drawer, tb_j_mp_toolbar, R.string.nav_open, R.string.nav_close);
+        dl_j_mp_drawer.addDrawerListener(mp_drawerToggle);
+        mp_drawerToggle.syncState();
 
         // Setup Navigation View
         nv_j_mp_navMenu = findViewById(R.id.nv_v_mp_nav);
@@ -96,16 +95,50 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
         intent_j_homepage = new Intent(MakePostPage.this, Homepage.class);
 
         // Setup spinner
-        adapter = new ArrayAdapter<>
+        adapter = new BookTitleAdapter
                 (this,
-                        R.layout.spinner_layout, dbUtils.getBookList());
+                        R.layout.spinner_layout, dbUtils.getBookList(), 700);
         sp_j_mp_bookList.setAdapter(adapter);
 
         // Button Listeners
-        //postButtonHandler();
+        postButtonHandler();
         addBookButtonHandler();
         backButtonHandler();
 
+    }
+
+    private void makePost()
+    {
+        String post = et_j_mp_post.getText().toString();
+        String book = sp_j_mp_bookList.getSelectedItem().toString();
+
+        // Trim whitespace
+        post = Utilities.trimWhitespace(post);
+
+        // Checks
+        if (post.isEmpty())
+        {
+            // Post is empty
+            Utilities.showError(tv_j_mp_error, "Post cannot be empty.");
+        }
+        else
+        {
+            Utilities.hideError(tv_j_mp_error);
+
+            // Get book id
+            int bookId = dbUtils.getBookId(book);
+
+            // Make post
+            Post p = new Post(bookId, Utilities.getLoggedInUser(this), Utilities.generateTimestamp(), post);
+
+            // Add post to database
+            dbUtils.addPost(p);
+
+            Toast.makeText(this, "Created post successfully", Toast.LENGTH_SHORT).show();
+
+            // Go back to homepage
+            startActivity(intent_j_homepage);
+        }
     }
 
     // Button: Post
@@ -116,7 +149,7 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view)
             {
-
+                makePost();
             }
         });
     }

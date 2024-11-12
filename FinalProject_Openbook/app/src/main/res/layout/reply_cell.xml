@@ -7,7 +7,7 @@
     android:background="@color/background_dark">
 
     <TextView
-        android:id="@+id/tv_v_pc_timestamp"
+        android:id="@+id/tv_v_rc_timestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_v_pc_username"
+        android:id="@+id/tv_v_rc_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -33,7 +33,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_v_pc_content"
+        android:id="@+id/tv_v_rc_content"
         android:layout_width="379dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -43,5 +43,5 @@
         android:theme="@style/postContent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_v_pc_timestamp" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_v_rc_timestamp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

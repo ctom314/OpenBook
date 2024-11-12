@@ -9,8 +9,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.text.TextPaint;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
@@ -84,6 +89,166 @@ public class Utilities
     {
         // No spaces
         return password.matches("^\\S+$");
+    }
+
+    // Valid year check
+    public static boolean isValidYear(String yearTxt)
+    {
+        // Check if year is valid
+        try
+        {
+            int year = Integer.parseInt(yearTxt);
+
+            // Ensure year is after 0 and not in the future
+            return year >= 0 && year <= Calendar.getInstance().get(Calendar.YEAR);
+        }
+        catch (NumberFormatException e)
+        {
+            return false;
+        }
+    }
+
+    // Remove leading and trailing whitespace
+    public static String trimWhitespace(String str)
+    {
+        return str.trim();
+    }
+
+    // Add ellipsis to string if it is too long
+    // One for no view, just string and max length
+    public static String shortenString(String str, int maxLength)
+    {
+        // If txt is too long, cut it off with ellipsis
+        maxLength = maxLength == 0 ? 1000 : maxLength;
+
+        CharSequence shortChar = TextUtils.ellipsize(str, new TextPaint(),
+                maxLength, TextUtils.TruncateAt.END);
+
+        // Cut off any stray letters or spaces
+        String shortTxt = shortChar.toString();
+
+        if (shortTxt.endsWith("…"))
+        {
+            if (shortTxt.contains(" "))
+            {
+                shortTxt = shortTxt.substring(0,
+                        shortTxt.lastIndexOf(" ")) + "...";
+            }
+        }
+
+        return shortTxt;
+    }
+
+    // One specifically for TV
+    public static String shortenString(TextView tv, String str, int maxLength)
+    {
+        // If txt is too long, cut it off with ellipsis
+        maxLength = maxLength == 0 ? 1000 : maxLength;
+
+        CharSequence shortChar = TextUtils.ellipsize(str, tv.getPaint(),
+                maxLength, TextUtils.TruncateAt.END);
+
+        // Cut off any stray letters or spaces
+        String shortTxt = shortChar.toString();
+
+        if (shortTxt.endsWith("…"))
+        {
+            if (shortTxt.contains(" "))
+            {
+                shortTxt = shortTxt.substring(0,
+                        shortTxt.lastIndexOf(" ")) + "...";
+            }
+        }
+
+        return shortTxt;
+    }
+
+    public static String shortenString(View view, String str)
+    {
+        // Determine what obj to use
+        if (view instanceof TextView)
+        {
+            // TextView obj
+            TextView tv = (TextView) view;
+
+            // If txt is too long, cut it off with ellipsis
+            int maxLength = tv.getWidth();
+            maxLength = maxLength == 0 ? 1000 : maxLength;
+
+            CharSequence shortChar = TextUtils.ellipsize(str, tv.getPaint(),
+                    maxLength, TextUtils.TruncateAt.END);
+
+            // Cut off any stray letters or spaces
+            String shortTxt = shortChar.toString();
+
+            if (shortTxt.endsWith("…"))
+            {
+                if (shortTxt.contains(" "))
+                {
+                    shortTxt = shortTxt.substring(0,
+                            shortTxt.lastIndexOf(" ")) + "...";
+                }
+            }
+
+            return shortTxt;
+        }
+        else if (view instanceof Toolbar)
+        {
+            // Toolbar obj
+            Toolbar tb = (Toolbar) view;
+
+            // If txt is too long, cut it off with ellipsis
+            int maxLength = tb.getWidth();
+            maxLength = maxLength == 0 ? 1000 : maxLength;
+
+            // Get the toolbar's title tv
+            TextView titleTv = null;
+
+            for (int i = 0; i < tb.getChildCount(); i++)
+            {
+                View c = tb.getChildAt(i);
+                if (c instanceof  TextView)
+                {
+                    titleTv = (TextView) c;
+                    break;
+                }
+            }
+
+            if (titleTv != null)
+            {
+                CharSequence shortChar = TextUtils.ellipsize(str, titleTv.getPaint(),
+                        maxLength, TextUtils.TruncateAt.END);
+
+                // Cut off any stray letters or spaces
+                String shortTxt = shortChar.toString();
+
+                if (shortTxt.endsWith("…"))
+                {
+                    if (shortTxt.contains(" "))
+                    {
+                        shortTxt = shortTxt.substring(0,
+                                shortTxt.lastIndexOf(" ")) + "...";
+                    }
+                }
+
+                return shortTxt;
+            }
+            else
+            {
+                // No TV found. Return original string
+                Log.e("Utilities", "ShortenString: No TextView found in Toolbar. Cannot shorten string.");
+                return str;
+            }
+
+        }
+        else
+        {
+            // Not TV or TB. Return original string
+            Log.e("Utilities", "ShortenString: View is not a TextView or Toolbar. Cannot shorten string.");
+            return str;
+        }
+
+
     }
 
     // Navigation View setup
@@ -165,40 +330,36 @@ public class Utilities
         // TODO: Change background color of item
     }
 
-    // Get current date and time and store in timestamp format
-    public static String getCurrentTime()
-    {
-        Calendar cal = Calendar.getInstance();
-
-        // Get current date and time
-        int year = cal.get(Calendar.YEAR);
-
-        // Months are 0 based, so add 1
-        int month = cal.get(Calendar.MONTH) + 1;
-
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
-        int minute = cal.get(Calendar.MINUTE);
-        int second = cal.get(Calendar.SECOND);
-
-        return generateTimestamp(year, month, day, hour, minute, second);
-    }
-
     // =============================================================================================
     //                              TIME / TIMESTAMP FUNCTIONS
     // =============================================================================================
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter DATE_FORMAT_NEAT = DateTimeFormatter.ofPattern("d LLLL yyyy, h:mm a");
 
     // Generate timestamp
-    public static String generateTimestamp(int year, int month, int day)
+    public static String generateTimestamp()
     {
-        return String.format("%04d-%02d-%02d", year, month, day);
+        // Get current date and time
+        LocalDateTime now = LocalDateTime.now();
+
+        // Format timestamp
+        return now.format(DATE_FORMAT);
     }
 
-    public static String generateTimestamp(int year, int month, int day, int hour, int minute, int second)
+    public static String makeTimestamp(int year, int month, int day, int hour, int minute, int second)
     {
         return String.format("%04d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second);
+    }
+
+    // Return full date from timestamp in readable format
+    public static String getFullDate(String timestamp)
+    {
+        // Format timestamp
+        LocalDateTime postTime = LocalDateTime.parse(timestamp, DATE_FORMAT);
+
+        // Format date
+        return postTime.format(DATE_FORMAT_NEAT);
     }
 
     // Get time since post was made. Return as n minutes, n hours, n days, etc.

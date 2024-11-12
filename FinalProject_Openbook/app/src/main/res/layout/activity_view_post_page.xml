@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/dl_v_vp_main"
+        tools:context=".pages.ViewPostPage">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tb_v_vp_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/primary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ToolbarTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="Book Title" />
+
+            <TextView
+                android:id="@+id/tv_v_vp_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="23dp"
+                android:text="Username"
+                android:textAlignment="viewStart"
+                android:textStyle="bold"
+                android:theme="@style/postHeader"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tb_v_vp_toolbar" />
+
+            <TextView
+                android:id="@+id/tv_v_vp_timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:layout_marginEnd="16dp"
+                android:text="2024-01-04 12:11:52"
+                android:textAlignment="textEnd"
+                android:textStyle="bold"
+                android:theme="@style/postHeader"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tb_v_vp_toolbar" />
+
+            <ScrollView
+                android:id="@+id/sv_v_vp_contentScroll"
+                android:layout_width="379dp"
+                android:layout_height="284dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="19dp"
+                android:layout_marginEnd="16dp"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                android:background="@drawable/round_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_v_vp_username">
+
+                <TextView
+                    android:id="@+id/tv_v_vp_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="false"
+                    android:text="The quick brown fox jumps over the lazy dog."
+                    android:theme="@style/postContent" />
+
+            </ScrollView>
+
+            <Button
+                android:id="@+id/btn_v_vp_editPost"
+                android:layout_width="340dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="161dp"
+                android:layout_marginEnd="159dp"
+                android:layout_marginBottom="12dp"
+                android:text="Edit"
+                android:textColor="@color/white"
+                android:theme="@style/Button"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btn_v_vp_reply"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.506"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/tertiary" />
+
+            <Button
+                android:id="@+id/btn_v_vp_reply"
+                android:layout_width="340dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="161dp"
+                android:layout_marginEnd="159dp"
+                android:layout_marginBottom="20dp"
+                android:text="Reply"
+                android:textColor="@color/white"
+                android:theme="@style/Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.506"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/tertiary" />
+
+            <ListView
+                android:id="@+id/lv_v_vp_replies"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/btn_v_vp_editPost"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sv_v_vp_contentScroll" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nv_v_vp_nav"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:menu="@menu/navigation_menu"
+            app:headerLayout="@layout/nav_header"
+            app:itemTextColor="@color/nav_current_item"
+            app:itemTextAppearance="@style/NavMenu" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="bottom"
+                android:padding="16dp" />
+
+            <TextView
+                android:id="@+id/tv_v_vp_curLoggedIn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/archivo"
+                android:gravity="bottom"
+                android:paddingStart="10sp"
+                android:paddingBottom="10sp"
+                android:text="Logged in as: User"
+                android:textColor="@color/secondary_text_material_light"
+                android:textSize="20sp" />
+
+        </com.google.android.material.navigation.NavigationView>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+    
+</layout>

@@ -2,7 +2,9 @@ package com.ctom314.openbook;
 
 import android.content.Context;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,19 +67,24 @@ public class RecentPostsAdapter extends BaseAdapter
         // Get post object
         Post post = posts.get(i);
 
+        // Shorten title if necessary
+        String title = dbUtils.getBook(post.getBookId()).getTitle();
+        String titleShort = Utilities.shortenString(bookTitle, title, 600);
+
+        // Shorten content preview
+        String contentPrev = Utilities.shortenString(content, post.getContent());
+
         // Get time since post using timestamp
         String timeSince = Utilities.getTimeSincePost(post.getTimestamp());
 
         // Set GUI elements
         username.setText(post.getUsername());
         timestamp.setText(timeSince);
-        content.setText(post.getContent());
+        content.setText(contentPrev);
 
         // Setup book title
-        String title = dbUtils.getBook(post.getBookId()).getTitle();
-
         // Make title underline using SpannableString
-        SpannableString underlineTitle = new SpannableString(title);
+        SpannableString underlineTitle = new SpannableString(titleShort);
         underlineTitle.setSpan(new UnderlineSpan(), 0, underlineTitle.length(), 0);
         bookTitle.setText(underlineTitle);
 

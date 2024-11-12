@@ -84,6 +84,13 @@ public class RegisterPage extends AppCompatActivity
                 String email = et_j_rp_email.getText().toString();
                 String password = et_j_rp_password.getText().toString();
                 String passwordConfirm = et_j_rp_passwordConfirm.getText().toString();
+
+                // Trim whitespace
+                name = Utilities.trimWhitespace(name);
+                username = Utilities.trimWhitespace(username);
+                email = Utilities.trimWhitespace(email);
+                password = Utilities.trimWhitespace(password);
+                passwordConfirm = Utilities.trimWhitespace(passwordConfirm);
                 
                 // Validate user input
                 if (validateRegister(name, username, email, password, passwordConfirm))
