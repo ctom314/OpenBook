@@ -8,7 +8,13 @@ public class Post
     private String timestamp;
     private String content;
 
-    // Constructor
+    /**
+     * Constructor
+     * @param b Book ID
+     * @param u Username
+     * @param t Timestamp
+     * @param c Content
+     */
     public Post(int b, String u, String t, String c)
     {
         bookId = b;

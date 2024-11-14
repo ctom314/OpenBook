@@ -138,6 +138,7 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
 
             // Go back to homepage
             startActivity(intent_j_homepage);
+            finish();
         }
     }
 
@@ -179,6 +180,7 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
             {
                 // Go to add book page
                 startActivity(intent_j_addBook);
+                finish();
             }
         });
     }

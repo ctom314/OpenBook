@@ -6,13 +6,21 @@ public class Comment
     private String username;
     private String timestamp;
     private String content;
+    private int postId;
 
-    // Constructor
-    public Comment(String u, String t, String c)
+    /**
+     * Constructor
+     * @param u Username
+     * @param t Timestamp
+     * @param c Content
+     * @param p Post ID
+     */
+    public Comment(String u, String t, String c, int p)
     {
         username = u;
         timestamp = t;
         content = c;
+        postId = p;
     }
 
     // Getters
@@ -31,6 +39,11 @@ public class Comment
         return content;
     }
 
+    public int getPostId()
+    {
+        return postId;
+    }
+
     // Setters
     public void setUsername(String u)
     {
@@ -45,5 +58,10 @@ public class Comment
     public void setContent(String c)
     {
         content = c;
+    }
+
+    public void setPostId(int p)
+    {
+        postId = p;
     }
 }

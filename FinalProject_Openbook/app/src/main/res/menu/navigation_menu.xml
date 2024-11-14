@@ -9,6 +9,20 @@
             android:icon="@drawable/home"/>
 
         <item
+            android:id="@+id/nav_catalog"
+            android:title="Catalog"
+            android:icon="@drawable/bookshelf"/>
+
+        <item
+            android:id="@+id/nav_search"
+            android:title="Search"
+            android:icon="@drawable/search"/>
+
+    </group>
+
+    <group android:id="@+id/add_pages" android:checkableBehavior="none">
+
+        <item
             android:id="@+id/nav_make_post"
             android:title="Make a Post"
             android:icon="@drawable/create_post"/>
@@ -17,11 +31,6 @@
             android:id="@+id/nav_add_book"
             android:title="Add a Book"
             android:icon="@drawable/add_book"/>
-
-        <item
-            android:id="@+id/nav_search"
-            android:title="Search"
-            android:icon="@drawable/search"/>
 
     </group>
 

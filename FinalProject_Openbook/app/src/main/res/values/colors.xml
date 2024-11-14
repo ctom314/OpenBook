@@ -16,6 +16,8 @@
     <color name="background_dark">#191919</color>
     <color name="et_background">#202020</color>
 
+    <color name="btnDisabled">#4B4B4B</color>
 
     <color name="error">#FF5050</color>
+    <color name="errorLight">#FF6E6E</color>
 </resources>

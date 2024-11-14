@@ -34,7 +34,11 @@ public class ViewPostPage extends AppCompatActivity implements NavigationView.On
     TextView tv_j_vp_timestamp;
     TextView tv_j_vp_post;
 
-    Button btn_j_vp_reply;
+    // Buttons Users other than OP will see
+    Button btn_j_vp_replyNonOP;
+
+    // Buttons OP will see
+    Button btn_j_vp_replyOP;
     Button btn_j_vp_editPost;
 
     ListView lv_j_vp_replies;
@@ -46,7 +50,8 @@ public class ViewPostPage extends AppCompatActivity implements NavigationView.On
     NavigationView nv_j_vp_navMenu;
     TextView tv_v_vp_curLoggedIn;
 
-    //Intent intent_j_editPost;
+    Intent intent_j_editPost;
+    Intent intent_j_reply;
     Intent intent_j_homepage;
 
     RepliesListAdapter adapter;
@@ -55,7 +60,7 @@ public class ViewPostPage extends AppCompatActivity implements NavigationView.On
     DBUtils dbUtils;
 
     // Default post to null
-    Post post = null;
+    private Post post = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -77,7 +82,8 @@ public class ViewPostPage extends AppCompatActivity implements NavigationView.On
         tv_j_vp_username = findViewById(R.id.tv_v_vp_username);
         tv_j_vp_timestamp = findViewById(R.id.tv_v_vp_timestamp);
         tv_j_vp_post = findViewById(R.id.tv_v_vp_content);
-        btn_j_vp_reply = findViewById(R.id.btn_v_vp_reply);
+        btn_j_vp_replyNonOP = findViewById(R.id.btn_v_vp_replyNonOP);
+        btn_j_vp_replyOP = findViewById(R.id.btn_v_vp_replyOP);
         btn_j_vp_editPost = findViewById(R.id.btn_v_vp_editPost);
         lv_j_vp_replies = findViewById(R.id.lv_v_vp_replies);
 
@@ -101,11 +107,15 @@ public class ViewPostPage extends AppCompatActivity implements NavigationView.On
         tv_v_vp_curLoggedIn.setText("Logged in as: " + Utilities.getLoggedInUser(this));
 
         // Setup intents
-        //intent_j_editPost = new Intent(this, EditPostPage.class);
+        intent_j_editPost = new Intent(ViewPostPage.this, EditPostPage.class);
+        intent_j_reply = new Intent(ViewPostPage.this, ReplyPage.class);
         intent_j_homepage = new Intent(ViewPostPage.this, Homepage.class);
 
         // Setup post display
         displayPost();
+
+        // Setup buttons
+        setupButtons();
 
         // Setup edit button
         editButtonState();
@@ -113,6 +123,8 @@ public class ViewPostPage extends AppCompatActivity implements NavigationView.On
         // Button Listeners
         toolbarEventListener();
         timestampEventListener();
+        editButtonHandler();
+        replyButtonHandler();
 
         // Setup replies list
         comments = dbUtils.getPostReplies(dbUtils.getPostId(post.getUsername(), post.getTimestamp()));
@@ -157,6 +169,28 @@ public class ViewPostPage extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    // Set which buttons are visible based on if the logged in user is OP (Original Poster)
+    private void setupButtons()
+    {
+        String loggedInUser = Utilities.getLoggedInUser(this);
+        String postUser = post.getUsername();
+
+        if (loggedInUser.equals(postUser))
+        {
+            // User's own post. Show both buttons
+            btn_j_vp_replyNonOP.setVisibility(Button.INVISIBLE);
+            btn_j_vp_replyOP.setVisibility(Button.VISIBLE);
+            btn_j_vp_editPost.setVisibility(Button.VISIBLE);
+        }
+        else
+        {
+            // Not user's post. Show only reply button
+            btn_j_vp_replyNonOP.setVisibility(Button.VISIBLE);
+            btn_j_vp_replyOP.setVisibility(Button.INVISIBLE);
+            btn_j_vp_editPost.setVisibility(Button.INVISIBLE);
+        }
+    }
+
     // Tap on timestamp to get full date
     private void timestampEventListener()
     {
@@ -185,6 +219,56 @@ public class ViewPostPage extends AppCompatActivity implements NavigationView.On
                 String title = dbUtils.getBook(post.getBookId()).getTitle();
 
                 Toast.makeText(ViewPostPage.this, title, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    // Button: Edit
+    private void editButtonHandler()
+    {
+        btn_j_vp_editPost.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                // Pass post id to edit post page
+                intent_j_editPost.putExtra("postId", dbUtils.getPostId(post.getUsername(), post.getTimestamp()));
+
+                // Go to edit post page
+                startActivity(intent_j_editPost);
+                finish();
+            }
+        });
+    }
+
+    // Button: Reply (Bot OP and non-OP version)
+    public void replyButtonHandler()
+    {
+        btn_j_vp_replyOP.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                // Pass post id to reply page
+                intent_j_reply.putExtra("postId", dbUtils.getPostId(post.getUsername(), post.getTimestamp()));
+
+                // Go to reply page
+                startActivity(intent_j_reply);
+                finish();
+            }
+        });
+
+        btn_j_vp_replyNonOP.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                // Pass post id to reply page
+                intent_j_reply.putExtra("postId", dbUtils.getPostId(post.getUsername(), post.getTimestamp()));
+
+                // Go to reply page
+                startActivity(intent_j_reply);
+                finish();
             }
         });
     }

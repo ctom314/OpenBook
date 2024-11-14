@@ -33,7 +33,11 @@ import java.util.Calendar;
 
 public class Utilities
 {
-    // Getting/Setting the logged in user
+    /**
+     * Gets the logged in user's username
+     * @param context Context
+     * @return Username of logged in user
+     */
     public static String getLoggedInUser(Context context)
     {
         // Get the logged in user
@@ -41,6 +45,11 @@ public class Utilities
         return prefs.getString("username", null);
     }
 
+    /**
+     * Sets the logged in user
+     * @param context Context
+     * @param username Username to set
+     */
     public static void setLoggedInUser(Context context, String username)
     {
         // Set the logged in user
@@ -50,7 +59,10 @@ public class Utilities
         editor.apply();
     }
 
-    // Debug: Clear the logged in user
+    /**
+     * Clears the logged in user
+     * @param context Context
+     */
     public static void clearLoggedInUser(Context context)
     {
         // Clear the logged in user
@@ -91,7 +103,11 @@ public class Utilities
         return password.matches("^\\S+$");
     }
 
-    // Valid year check
+    /**
+     * Checks if a year is valid
+     * @param yearTxt Year to check
+     * @return True if year is valid
+     */
     public static boolean isValidYear(String yearTxt)
     {
         // Check if year is valid
@@ -114,8 +130,12 @@ public class Utilities
         return str.trim();
     }
 
-    // Add ellipsis to string if it is too long
-    // One for no view, just string and max length
+    /**
+     * Shortens a string to fit in a TextView
+     * @param str String to shorten
+     * @param maxLength Maximum length of string
+     * @return Shortened string
+     */
     public static String shortenString(String str, int maxLength)
     {
         // If txt is too long, cut it off with ellipsis
@@ -139,7 +159,13 @@ public class Utilities
         return shortTxt;
     }
 
-    // One specifically for TV
+    /**
+     * Shortens a string to fit in a TextView
+     * @param tv TextView to shorten string for
+     * @param str String to shorten
+     * @param maxLength Maximum length of string
+     * @return Shortened string
+     */
     public static String shortenString(TextView tv, String str, int maxLength)
     {
         // If txt is too long, cut it off with ellipsis
@@ -163,6 +189,12 @@ public class Utilities
         return shortTxt;
     }
 
+    /**
+     * Shortens a string to fit in a View
+     * @param view View to shorten string for
+     * @param str String to shorten
+     * @return Shortened string
+     */
     public static String shortenString(View view, String str)
     {
         // Determine what obj to use
@@ -251,7 +283,13 @@ public class Utilities
 
     }
 
-    // Navigation View setup
+    /**
+     * Handles navigation item selection
+     * @param item Selected item
+     * @param context Context
+     * @param drawerLayout Drawer layout
+     * @return True if item was selected
+     */
     public static boolean onNavigationItemSelected(@NonNull MenuItem item, Context context, DrawerLayout drawerLayout)
     {
         // Handle navigation view item clicks
@@ -308,6 +346,7 @@ public class Utilities
             if (compName != null && !compName.equals(intent.getComponent()))
             {
                 context.startActivity(intent);
+                curActivity.finish();
             }
             else
             {
@@ -326,8 +365,6 @@ public class Utilities
     {
         // Set item as checked
         item.setChecked(true);
-
-        // TODO: Change background color of item
     }
 
     // =============================================================================================
@@ -337,7 +374,10 @@ public class Utilities
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final DateTimeFormatter DATE_FORMAT_NEAT = DateTimeFormatter.ofPattern("d LLLL yyyy, h:mm a");
 
-    // Generate timestamp
+    /**
+     * Generates a timestamp in the format "yyyy-MM-dd HH:mm:ss"
+     * @return String timestamp
+     */
     public static String generateTimestamp()
     {
         // Get current date and time
@@ -347,12 +387,26 @@ public class Utilities
         return now.format(DATE_FORMAT);
     }
 
+    /**
+     * Creates a timestamp in the format "yyyy-MM-dd HH:mm:ss"
+     * @param year Year
+     * @param month Month
+     * @param day Day
+     * @param hour Hour
+     * @param minute Minute
+     * @param second Second
+     * @return String timestamp
+     */
     public static String makeTimestamp(int year, int month, int day, int hour, int minute, int second)
     {
         return String.format("%04d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second);
     }
 
-    // Return full date from timestamp in readable format
+    /**
+     * Returns the full date from a timestamp in a readable format
+     * @param timestamp Timestamp in "yyyy-MM-dd HH:mm:ss" format
+     * @return String date in "d LLLL yyyy, h:mm a" format
+     */
     public static String getFullDate(String timestamp)
     {
         // Format timestamp
@@ -362,7 +416,11 @@ public class Utilities
         return postTime.format(DATE_FORMAT_NEAT);
     }
 
-    // Get time since post was made. Return as n minutes, n hours, n days, etc.
+    /**
+     * Returns the time since a post was made in a readable format
+     * @param timestamp Timestamp in "yyyy-MM-dd HH:mm:ss" format
+     * @return String time since post
+     */
     @SuppressLint("DefaultLocale")
     public static String getTimeSincePost(String timestamp)
     {

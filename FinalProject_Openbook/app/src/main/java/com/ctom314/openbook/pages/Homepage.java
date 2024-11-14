@@ -147,6 +147,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
 
                 // Go to view post page
                 startActivity(intent_j_viewPost);
+                finish();
             }
         });
     }

@@ -44,4 +44,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_v_rc_timestamp" />
+
+    <ImageView
+        android:id="@+id/iv_v_rc_opCrown"
+        android:layout_width="28dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="12dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/tv_v_rc_content"
+        app:layout_constraintStart_toEndOf="@+id/tv_v_rc_username"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/crown" />
 </androidx.constraintlayout.widget.ConstraintLayout>

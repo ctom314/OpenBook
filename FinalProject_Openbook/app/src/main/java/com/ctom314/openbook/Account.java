@@ -8,6 +8,14 @@ public class Account
     private byte[] password_hash;
     private byte[] password_salt;
 
+    /**
+     * Constructor
+     * @param n Name
+     * @param e Email
+     * @param u Username
+     * @param ph Password hash
+     * @param ps Password salt
+     */
     public Account(String n, String e, String u, byte[] ph, byte[] ps)
     {
         name = n;

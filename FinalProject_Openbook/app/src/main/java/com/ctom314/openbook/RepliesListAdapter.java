@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public class RepliesListAdapter extends BaseAdapter
         TextView username = view.findViewById(R.id.tv_v_rc_username);
         TextView timestamp = view.findViewById(R.id.tv_v_rc_timestamp);
         TextView content = view.findViewById(R.id.tv_v_rc_content);
+        ImageView opCrown = view.findViewById(R.id.iv_v_rc_opCrown);
 
         // Get comment object
         Comment comment = comments.get(i);
@@ -72,6 +74,17 @@ public class RepliesListAdapter extends BaseAdapter
         username.setText(comment.getUsername());
         timestamp.setText(timeSince);
         content.setText(comment.getContent());
+
+        // Show OP crown if user is OP (Original Poster)
+        String postUsername = dbUtils.getPost(comment.getPostId()).getUsername();
+        if (username.getText().toString().equals(postUsername))
+        {
+            opCrown.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            opCrown.setVisibility(View.INVISIBLE);
+        }
 
         return view;
     }

@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity
         intent_j_loginPage = new Intent(MainActivity.this, LoginPage.class);
         intent_j_homepage = new Intent(MainActivity.this, Homepage.class);
 
-        //Utilities.clearLoggedInUser(this);
-
         // Get logged in user
         String user = Utilities.getLoggedInUser(this);
 

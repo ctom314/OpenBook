@@ -9,7 +9,12 @@ import java.security.SecureRandom;
 
 public class PasswordUtils
 {
-    // Hash password
+    /**
+     * Hashes a password with a salt using SHA-256
+     * @param password The password to hash
+     * @param salt The salt to add to the password
+     * @return The hashed password
+     */
     public static byte[] hashPsasword(String password, byte[] salt)
     {
         byte[] hash = null;
@@ -33,7 +38,10 @@ public class PasswordUtils
         return hash;
     }
 
-    // Generate Salt
+    /**
+     * Generates a random salt
+     * @return The generated salt
+     */
     public static byte[] generateSalt()
     {
         // Use SecureRandom instead of regular Random for better security
@@ -46,7 +54,13 @@ public class PasswordUtils
         return salt;
     }
 
-    // Compare password with hash
+    /**
+     * Compares a password with a saved hash and salt
+     * @param enteredPassword The password to compare
+     * @param savedSalt The salt used to hash the saved password
+     * @param savedHash The saved password hash
+     * @return True if the password matches the saved hash, false otherwise
+     */
     public static boolean passwordHashesMatch(String enteredPassword, byte[] savedSalt, byte[] savedHash)
     {
         // Hash the password with the salt
@@ -57,6 +71,12 @@ public class PasswordUtils
     }
 
     // Compare entered password with password confirm
+    /**
+     * Compares two passwords to see if they match
+     * @param password The first password
+     * @param passwordConfirm The second password
+     * @return True if the passwords match, false otherwise
+     */
     public static boolean passwordsMatch(String password, String passwordConfirm)
     {
         return password.equals(passwordConfirm);

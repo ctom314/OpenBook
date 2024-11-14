@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/dl_v_ep_main"
+        tools:context=".pages.EditPostPage">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background">
+    
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tb_v_ep_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/primary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ToolbarTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="Edit Post" />
+
+            <Button
+                android:id="@+id/btn_v_ep_update"
+                android:layout_width="340dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="161dp"
+                android:layout_marginEnd="159dp"
+                android:layout_marginBottom="8dp"
+                android:text="Update"
+                android:textColor="@color/white"
+                android:theme="@style/Button"
+                app:layout_constraintBottom_toTopOf="@+id/btn_v_ep_delete"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/tertiary" />
+
+            <Button
+                android:id="@+id/btn_v_ep_delete"
+                android:layout_width="340dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="161dp"
+                android:layout_marginEnd="159dp"
+                android:layout_marginBottom="8dp"
+                android:text="Delete"
+                android:textColor="@color/white"
+                android:theme="@style/ButtonScary"
+                app:layout_constraintBottom_toTopOf="@+id/btn_v_ep_cancel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/errorLight" />
+
+            <Button
+                android:id="@+id/btn_v_ep_cancel"
+                android:layout_width="340dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="161dp"
+                android:layout_marginEnd="159dp"
+                android:layout_marginBottom="20dp"
+                android:text="Cancel"
+                android:textColor="@color/white"
+                android:theme="@style/Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.506"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/tertiary" />
+
+            <TextView
+                android:id="@+id/tv_v_ep_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="88dp"
+                android:layout_marginEnd="88dp"
+                android:layout_marginBottom="21dp"
+                android:text="Post must not be empty."
+                android:textAppearance="@style/ErrorMsg"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btn_v_ep_update"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.491"
+                app:layout_constraintStart_toStartOf="parent" />
+            
+            <TextView
+                android:id="@+id/tv_v_ep_contents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="299dp"
+                android:text="Message:"
+                android:textStyle="bold"
+                android:theme="@style/fieldTV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tb_v_ep_toolbar" />
+
+            <EditText
+                android:id="@+id/et_v_ep_post"
+                android:layout_width="355dp"
+                android:layout_height="305dp"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="34dp"
+                android:background="@drawable/round_bg"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                android:singleLine="false"
+                android:textAlignment="textStart"
+                android:theme="@style/PostContents"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_v_ep_contents" />
+    
+            
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nv_v_ep_nav"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:menu="@menu/navigation_menu"
+            app:headerLayout="@layout/nav_header"
+            app:itemTextColor="@color/nav_current_item"
+            app:itemTextAppearance="@style/NavMenu" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="bottom"
+            android:padding="16dp" />
+
+        <TextView
+            android:id="@+id/tv_v_ep_curLoggedIn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/archivo"
+            android:gravity="bottom"
+            android:paddingStart="10sp"
+            android:paddingBottom="10sp"
+            android:text="Logged in as: User"
+            android:textColor="@color/secondary_text_material_light"
+            android:textSize="20sp" />
+        
+        </com.google.android.material.navigation.NavigationView>
+        
+    </androidx.drawerlayout.widget.DrawerLayout>
+    
+</layout>

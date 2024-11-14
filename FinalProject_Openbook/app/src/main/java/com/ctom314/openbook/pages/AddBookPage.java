@@ -136,6 +136,7 @@ public class AddBookPage extends AppCompatActivity implements NavigationView.OnN
 
             // Go back to make post page
             startActivity(intent_j_makePost);
+            finish();
         }
     }
 
@@ -149,6 +150,7 @@ public class AddBookPage extends AppCompatActivity implements NavigationView.OnN
             {
                 // Go back to make post page
                 startActivity(intent_j_makePost);
+                finish();
             }
         });
     }

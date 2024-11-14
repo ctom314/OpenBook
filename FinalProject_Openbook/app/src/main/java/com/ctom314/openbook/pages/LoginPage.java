@@ -79,7 +79,7 @@ public class LoginPage extends AppCompatActivity
                     // Set logged in user
                     Utilities.setLoggedInUser(LoginPage.this, username);
 
-                    Toast.makeText(LoginPage.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginPage.this, "Logged in as " + username, Toast.LENGTH_SHORT).show();
                     
                     // Redirect to homepage
                     startActivity(intent_j_homepage);
@@ -98,6 +98,7 @@ public class LoginPage extends AppCompatActivity
             public void onClick(View view)
             {
                 startActivity(intent_j_registerPage);
+                finish();
             }
         });
     }

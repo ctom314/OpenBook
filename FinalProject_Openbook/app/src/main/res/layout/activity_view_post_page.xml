@@ -79,6 +79,7 @@
 
             </ScrollView>
 
+            <!--
             <Button
                 android:id="@+id/btn_v_vp_editPost"
                 android:layout_width="340dp"
@@ -95,9 +96,11 @@
                 app:layout_constraintHorizontal_bias="0.506"
                 app:layout_constraintStart_toStartOf="parent"
                 app:rippleColor="@color/tertiary" />
+            -->
 
+            <!-- Users that are not OP will only see the wide Reply Button -->
             <Button
-                android:id="@+id/btn_v_vp_reply"
+                android:id="@+id/btn_v_vp_replyNonOP"
                 android:layout_width="340dp"
                 android:layout_height="69dp"
                 android:layout_marginStart="161dp"
@@ -106,10 +109,42 @@
                 android:text="Reply"
                 android:textColor="@color/white"
                 android:theme="@style/Button"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.506"
                 app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/tertiary" />
+
+            <!-- OP will see both the Edit and Reply Buttons -->
+            <Button
+                android:id="@+id/btn_v_vp_replyOP"
+                android:layout_width="165dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="37dp"
+                android:layout_marginEnd="22dp"
+                android:layout_marginBottom="12dp"
+                android:text="Reply"
+                android:textColor="@color/white"
+                android:theme="@style/Button"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_v_vp_editPost"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/tertiary" />
+
+            <Button
+                android:id="@+id/btn_v_vp_editPost"
+                android:layout_width="165dp"
+                android:layout_height="69dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="12dp"
+                android:text="Edit"
+                android:textColor="@color/white"
+                android:theme="@style/Button"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:rippleColor="@color/tertiary" />
 
             <ListView
@@ -118,7 +153,7 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toTopOf="@+id/btn_v_vp_editPost"
+                app:layout_constraintBottom_toTopOf="@+id/btn_v_vp_replyNonOP"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sv_v_vp_contentScroll" />
