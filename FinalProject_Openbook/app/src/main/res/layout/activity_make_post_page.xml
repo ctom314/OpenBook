@@ -51,19 +51,19 @@
                 android:text="Post"
                 android:textColor="@color/white"
                 android:theme="@style/Button"
-                app:layout_constraintBottom_toTopOf="@+id/btn_v_mp_back"
+                app:layout_constraintBottom_toTopOf="@+id/btn_v_mp_home"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:rippleColor="@color/tertiary" />
 
             <Button
-                android:id="@+id/btn_v_mp_back"
+                android:id="@+id/btn_v_mp_home"
                 android:layout_width="340dp"
                 android:layout_height="69dp"
                 android:layout_marginStart="161dp"
                 android:layout_marginEnd="159dp"
                 android:layout_marginBottom="20dp"
-                android:text="Back"
+                android:text="Home"
                 android:textColor="@color/white"
                 android:theme="@style/Button"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -118,6 +118,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             {
                 // Go to make post page
                 startActivity(intent_j_makePost);
+                finish();
             }
         });
     }

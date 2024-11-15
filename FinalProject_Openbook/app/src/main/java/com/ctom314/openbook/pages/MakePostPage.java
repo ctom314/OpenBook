@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -36,7 +35,7 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
     EditText et_j_mp_post;
 
     Button btn_j_mp_post;
-    Button btn_j_mp_back;
+    Button btn_j_mp_home;
 
     // Toolbar vars
     Toolbar tb_j_mp_toolbar;
@@ -47,10 +46,14 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
 
     Intent intent_j_addBook;
     Intent intent_j_homepage;
+    Intent intent_j_viewPost;
 
     BookTitleAdapter adapter;
 
     DBUtils dbUtils;
+
+    // Default book id to -1
+    int bookId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,13 +63,20 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
 
         dbUtils = new DBUtils(this);
 
+        // Retrieve bookID if one was passed
+        Intent cameFrom = getIntent();
+        if (cameFrom.getIntExtra("bookId", -1) != -1)
+        {
+            bookId = cameFrom.getIntExtra("bookId", -1);
+        }
+
         // Connect vars
         sp_j_mp_bookList = findViewById(R.id.sp_v_mp_bookList);
         tv_j_mp_addBookMsg = findViewById(R.id.tv_v_mp_addBookMsg);
         tv_j_mp_error = findViewById(R.id.tv_v_mp_error);
         et_j_mp_post = findViewById(R.id.et_v_mp_post);
         btn_j_mp_post = findViewById(R.id.btn_v_mp_post);
-        btn_j_mp_back = findViewById(R.id.btn_v_mp_back);
+        btn_j_mp_home = findViewById(R.id.btn_v_mp_home);
 
         // Setup toolbar
         tb_j_mp_toolbar = findViewById(R.id.tb_v_mp_toolbar);
@@ -93,17 +103,15 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
         // Setup intents
         intent_j_addBook = new Intent(this, AddBookPage.class);
         intent_j_homepage = new Intent(MakePostPage.this, Homepage.class);
+        intent_j_viewPost = new Intent(MakePostPage.this, ViewPostPage.class);
 
         // Setup spinner
-        adapter = new BookTitleAdapter
-                (this,
-                        R.layout.spinner_layout, dbUtils.getBookList(), 700);
-        sp_j_mp_bookList.setAdapter(adapter);
+        setupBookDisplay();
 
         // Button Listeners
         postButtonHandler();
         addBookButtonHandler();
-        backButtonHandler();
+        homeButtonHandler();
 
     }
 
@@ -136,8 +144,11 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
 
             Toast.makeText(this, "Created post successfully", Toast.LENGTH_SHORT).show();
 
-            // Go back to homepage
-            startActivity(intent_j_homepage);
+            // Pass post id to view post page
+            intent_j_viewPost.putExtra("postId", dbUtils.getPostId(p.getUsername(), p.getTimestamp()));
+
+            // Go back the post's page
+            startActivity(intent_j_viewPost);
             finish();
         }
     }
@@ -155,10 +166,10 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    // Button: Back
-    private void backButtonHandler()
+    // Button: Home
+    private void homeButtonHandler()
     {
-        btn_j_mp_back.setOnClickListener(new View.OnClickListener()
+        btn_j_mp_home.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -184,7 +195,26 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-    
+
+    // Book display setup based on if book id was passed
+    private void setupBookDisplay()
+    {
+        adapter = new BookTitleAdapter
+                (this,
+                        R.layout.spinner_layout, dbUtils.getBookList(), 700);
+        sp_j_mp_bookList.setAdapter(adapter);
+
+        // If book id was passed, set spinner to that book and lock it
+        if (bookId != -1)
+        {
+            sp_j_mp_bookList.setSelection(adapter.getPosition(dbUtils.getBook(bookId).getTitle()));
+            sp_j_mp_bookList.setEnabled(false);
+
+            // Hide add book message
+            tv_j_mp_addBookMsg.setVisibility(View.INVISIBLE);
+        }
+    }
+
     // Needed for navigation view to work properly
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item)

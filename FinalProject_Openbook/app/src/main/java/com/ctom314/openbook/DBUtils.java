@@ -355,6 +355,37 @@ public class DBUtils extends SQLiteOpenHelper
     }
 
     /**
+     * Get all books from the database.
+     * @return ArrayList of Book objects.
+     */
+    public ArrayList<Book> getAllBooks()
+    {
+        ArrayList<Book> books = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Get all books. Sort by title
+        String query = "SELECT * FROM " + BOOKS_TABLE + " ORDER BY title;";
+        Cursor cursor = db.rawQuery(query, null);
+
+        while (cursor.moveToNext())
+        {
+            // Get book details
+            String title = cursor.getString(1);
+            String author = cursor.getString(2);
+            int year = cursor.getInt(3);
+
+            // Create book object
+            Book b = new Book(title, author, year);
+            books.add(b);
+        }
+
+        cursor.close();
+        db.close();
+
+        return books;
+    }
+
+    /**
      * Check if a book with the title and author already exists in the database.
      * @param title Title of the book.
      * @param author Author of the book.
@@ -522,6 +553,38 @@ public class DBUtils extends SQLiteOpenHelper
         db.execSQL(query, new Object[] {postId});
 
         db.close();
+    }
+
+    /**
+     * Get all posts from a specific book.
+     * @param bookId Book ID of the book to get posts from.
+     * @return ArrayList of Post objects.
+     */
+    public ArrayList<Post> getBookPosts(int bookId)
+    {
+        ArrayList<Post> posts = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Get all posts from book. Order by most recent.
+        String query = "SELECT * FROM " + POSTS_TABLE + " WHERE bookId = ? ORDER BY timestamp DESC;";
+        Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(bookId)});
+
+        while (cursor.moveToNext())
+        {
+            // Get post details
+            String username = getUsername(cursor.getInt(1));
+            String timestamp = cursor.getString(3);
+            String content = cursor.getString(4);
+
+            // Create post object
+            Post p = new Post(bookId, username, timestamp, content);
+            posts.add(p);
+        }
+
+        cursor.close();
+        db.close();
+
+        return posts;
     }
 
     // =============================================================================================

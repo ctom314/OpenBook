@@ -13,6 +13,12 @@
         android:theme="@style/Theme.FinalProject_Openbook"
         tools:targetApi="31">
         <activity
+            android:name=".pages.BookThreadPage"
+            android:exported="false" />
+        <activity
+            android:name=".pages.CatalogPage"
+            android:exported="false" />
+        <activity
             android:name=".pages.ReplyPage"
             android:exported="false" />
         <activity

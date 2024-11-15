@@ -22,6 +22,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.ctom314.openbook.pages.AddBookPage;
+import com.ctom314.openbook.pages.CatalogPage;
 import com.ctom314.openbook.pages.Homepage;
 import com.ctom314.openbook.pages.LoginPage;
 import com.ctom314.openbook.pages.MakePostPage;
@@ -312,6 +313,12 @@ public class Utilities
         {
             // Go to add book page
             intent = new Intent(context, AddBookPage.class);
+        }
+
+        else if (id == R.id.nav_catalog)
+        {
+            // Go to catalog page
+            intent = new Intent(context, CatalogPage.class);
         }
 
         // TODO: Make other pages and add them here
