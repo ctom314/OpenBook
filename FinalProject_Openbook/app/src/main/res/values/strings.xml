@@ -8,6 +8,7 @@
 
     <string name="register_msg">Don\'t have an account? <u>Register!</u></string>
     <string name="addBook_msg">Don\'t see your book? <u>Add it!</u></string>
+    <string name="settingsHeader"><u>Account Details</u></string>
 
     <!-- Navigation Menu Strings -->
     <string name="nav_title"><u>OpenBook</u></string>

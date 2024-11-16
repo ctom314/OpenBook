@@ -2,6 +2,7 @@ package com.ctom314.openbook.pages;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -59,7 +60,6 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
-
         dbUtils = new DBUtils(this);
 
         // Connect vars
@@ -95,12 +95,13 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         Utilities.updateNavMenu(nv_j_hp_navMenu.getMenu().findItem(R.id.nav_home), this);
 
         // Setup intents
-        //intent_j_search = new Intent(Homepage.this, SearchPage.class);
+        intent_j_search = new Intent(Homepage.this, SearchPage.class);
         intent_j_makePost = new Intent(Homepage.this, MakePostPage.class);
         intent_j_viewPost = new Intent(Homepage.this, ViewPostPage.class);
 
         // Button handlers
         makePostButton();
+        searchButton();
         recentPostClickEvent();
 
         // Setup recent posts list
@@ -109,7 +110,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
     }
 
     // Button: Make Post
-    public void makePostButton()
+    private void makePostButton()
     {
         btn_j_hp_makePost.setOnClickListener(new View.OnClickListener()
         {
@@ -123,15 +124,19 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         });
     }
 
-    // Needed for coming back to homepage since it is only created once
-    @Override
-    protected void onNewIntent(@NonNull Intent intent)
+    // BTN: Search
+    private void searchButton()
     {
-        super.onNewIntent(intent);
-
-        // Setup recent posts list
-        recentPosts = dbUtils.getRecentPosts(3);
-        fillListView();
+        btn_j_hp_search.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                // Go to search page
+                startActivity(intent_j_search);
+                finish();
+            }
+        });
     }
 
     // Click event for recent posts

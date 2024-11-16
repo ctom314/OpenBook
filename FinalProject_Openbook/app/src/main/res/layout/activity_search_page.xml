@@ -7,30 +7,16 @@
     <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/dl_v_mp_main"
-        tools:context=".pages.MakePostPage">
+        android:id="@+id/dl_v_sp_main"
+        tools:context=".pages.SearchPage">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/background">
 
-            <TextView
-                android:id="@+id/tv_v_mp_contents"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="52dp"
-                android:layout_marginEnd="299dp"
-                android:text="Message:"
-                android:textStyle="bold"
-                android:theme="@style/fieldTV"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sp_v_mp_bookList" />
-
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/tb_v_mp_toolbar"
+                android:id="@+id/tb_v_sp_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/primary"
@@ -39,25 +25,85 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="Make Post" />
+                app:title="Search" />
+
+            <TextView
+                android:id="@+id/tv_v_sp_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="Title:"
+                android:textStyle="bold"
+                android:theme="@style/fieldTV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tb_v_sp_toolbar" />
+
+            <EditText
+                android:id="@+id/et_v_sp_title"
+                android:layout_width="273dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="41dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="36dp"
+                android:background="@drawable/round_bg"
+                android:ems="10"
+                android:inputType="textCapWords"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:theme="@style/EditText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_v_sp_title"
+                app:layout_constraintTop_toBottomOf="@+id/tb_v_sp_toolbar" />
+
+            <TextView
+                android:id="@+id/tv_v_sp_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="92dp"
+                android:text="Author:"
+                android:textStyle="bold"
+                android:theme="@style/fieldTV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tb_v_sp_toolbar" />
+
+            <EditText
+                android:id="@+id/et_v_sp_author"
+                android:layout_width="253dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="41dp"
+                android:layout_marginTop="92dp"
+                android:layout_marginEnd="36dp"
+                android:background="@drawable/round_bg"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:theme="@style/EditText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/tv_v_sp_title"
+                app:layout_constraintTop_toBottomOf="@+id/tb_v_sp_toolbar" />
 
             <Button
-                android:id="@+id/btn_v_mp_post"
+                android:id="@+id/btn_v_sp_search"
                 android:layout_width="340dp"
                 android:layout_height="69dp"
                 android:layout_marginStart="161dp"
                 android:layout_marginEnd="159dp"
                 android:layout_marginBottom="8dp"
-                android:text="Post"
+                android:text="Search"
                 android:textColor="@color/white"
                 android:theme="@style/Button"
-                app:layout_constraintBottom_toTopOf="@+id/btn_v_mp_home"
+                app:layout_constraintBottom_toTopOf="@+id/btn_v_sp_home"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.506"
                 app:layout_constraintStart_toStartOf="parent"
                 app:rippleColor="@color/tertiary" />
 
             <Button
-                android:id="@+id/btn_v_mp_home"
+                android:id="@+id/btn_v_sp_home"
                 android:layout_width="340dp"
                 android:layout_height="69dp"
                 android:layout_marginStart="161dp"
@@ -68,88 +114,41 @@
                 android:theme="@style/Button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.506"
                 app:layout_constraintStart_toStartOf="parent"
                 app:rippleColor="@color/tertiary" />
 
             <TextView
-                android:id="@+id/tv_v_stp_error"
+                android:id="@+id/tv_v_sp_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="88dp"
                 android:layout_marginEnd="88dp"
                 android:layout_marginBottom="21dp"
                 android:text="All fields must be filled in."
-                android:textAppearance="@style/ErrorMsg"
+                android:textAppearance="@style/TextViewM"
+                android:textSize="18sp"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/btn_v_mp_post"
+                app:layout_constraintBottom_toTopOf="@+id/btn_v_sp_search"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.491"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_v_mp_book"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="33dp"
-                android:text="Book:"
-                android:textStyle="bold"
-                android:theme="@style/fieldTV"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tb_v_mp_toolbar" />
-
-            <Spinner
-                android:id="@+id/sp_v_mp_bookList"
-                android:layout_width="291dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="13dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/round_bg"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_v_mp_book"
-                app:layout_constraintTop_toBottomOf="@+id/tb_v_mp_toolbar" />
-
-            <TextView
-                android:id="@+id/tv_v_mp_addBookMsg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="114dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="47dp"
-                android:text="@string/addBook_msg"
-                android:theme="@style/TextViewL"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sp_v_mp_bookList" />
-
-            <EditText
-                android:id="@+id/et_v_mp_post"
-                android:layout_width="355dp"
-                android:layout_height="305dp"
-                android:layout_marginStart="26dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="34dp"
-                android:background="@drawable/round_bg"
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                android:paddingStart="10dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="10dp"
-                android:singleLine="false"
-                android:textAlignment="textStart"
-                android:theme="@style/PostContents"
+            <ListView
+                android:id="@+id/lv_v_sp_results"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginBottom="11dp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_v_sp_msg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_v_mp_contents" />
+                app:layout_constraintTop_toBottomOf="@+id/et_v_sp_author" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nv_v_mp_nav"
+            android:id="@+id/nv_v_sp_nav"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
@@ -166,7 +165,7 @@
                 android:padding="16dp" />
 
             <TextView
-                android:id="@+id/tv_v_mp_curLoggedIn"
+                android:id="@+id/tv_v_sp_curLoggedIn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/archivo"
@@ -180,5 +179,5 @@
         </com.google.android.material.navigation.NavigationView>
 
     </androidx.drawerlayout.widget.DrawerLayout>
-
+    
 </layout>

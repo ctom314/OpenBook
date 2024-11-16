@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/dl_v_stp_main"
+        tools:context=".pages.SettingsPage">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tb_v_stp_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/primary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ToolbarTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="Settings" />
+
+            <TextView
+                android:id="@+id/tv_v_stp_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:text="Name:"
+                android:textStyle="bold"
+                android:theme="@style/fieldTV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_v_stp_header" />
+
+            <EditText
+                android:id="@+id/et_v_stp_name"
+                android:layout_width="233dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="61dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/round_bg"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:theme="@style/EditText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_v_stp_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_v_stp_header" />
+
+            <TextView
+                android:id="@+id/tv_v_stp_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="35dp"
+                android:text="Username:"
+                android:textStyle="bold"
+                android:theme="@style/fieldTV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_v_stp_name" />
+
+            <EditText
+                android:id="@+id/et_v_stp_username"
+                android:layout_width="233dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="23dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/round_bg"
+                android:ems="10"
+                android:inputType="textNoSuggestions"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:theme="@style/EditText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/tv_v_stp_username"
+                app:layout_constraintTop_toBottomOf="@+id/et_v_stp_name" />
+
+            <TextView
+                android:id="@+id/tv_v_stp_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="35dp"
+                android:text="Email:"
+                android:textStyle="bold"
+                android:theme="@style/fieldTV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_v_stp_username" />
+
+            <EditText
+                android:id="@+id/et_v_stp_email"
+                android:layout_width="233dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="23dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/round_bg"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:theme="@style/EditText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_v_stp_email"
+                app:layout_constraintTop_toBottomOf="@+id/et_v_stp_username" />
+            
+            <Button
+                android:id="@+id/btn_v_stp_changePassword"
+                android:layout_width="340dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="161dp"
+                android:layout_marginEnd="159dp"
+                android:layout_marginBottom="8dp"
+                android:text="Change Password"
+                android:textColor="@color/white"
+                android:theme="@style/Button"
+                app:layout_constraintBottom_toTopOf="@id/btn_v_stp_deleteAccount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.506"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/tertiary" />
+
+            <TextView
+                android:id="@+id/tv_v_stp_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="88dp"
+                android:layout_marginEnd="88dp"
+                android:layout_marginBottom="21dp"
+                android:text="All fields must be filled in."
+                android:textAppearance="@style/ErrorMsg"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/btn_v_stp_changePassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.491"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Edit/Save buttons -->
+            <Button
+                android:id="@+id/btn_v_stp_edit"
+                android:layout_width="165dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="37dp"
+                android:layout_marginEnd="22dp"
+                android:layout_marginBottom="8dp"
+                android:text="Edit"
+                android:textColor="@color/white"
+                android:theme="@style/Button"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@id/btn_v_stp_home"
+                app:layout_constraintEnd_toStartOf="@+id/btn_v_stp_deleteAccount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/tertiary" />
+
+            <Button
+                android:id="@+id/btn_v_stp_save"
+                android:layout_width="165dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="37dp"
+                android:layout_marginEnd="22dp"
+                android:layout_marginBottom="8dp"
+                android:text="Save"
+                android:textColor="@color/white"
+                android:theme="@style/Button"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@id/btn_v_stp_home"
+                app:layout_constraintEnd_toStartOf="@+id/btn_v_stp_deleteAccount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/tertiary" />
+
+
+
+            <Button
+                android:id="@+id/btn_v_stp_deleteAccount"
+                android:layout_width="165dp"
+                android:layout_height="69dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="8dp"
+                android:text="Delete"
+                android:textColor="@color/white"
+                android:theme="@style/ButtonScary"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/btn_v_stp_home"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:rippleColor="@color/errorLight" />
+
+            <!-- Cancel button when in edit mode -->
+            <Button
+                android:id="@+id/btn_v_stp_cancel"
+                android:layout_width="340dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="161dp"
+                android:layout_marginEnd="159dp"
+                android:layout_marginBottom="20dp"
+                android:text="Cancel"
+                android:textColor="@color/white"
+                android:theme="@style/Button"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.506"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/tertiary" />
+
+            <Button
+                android:id="@+id/btn_v_stp_home"
+                android:layout_width="340dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="161dp"
+                android:layout_marginEnd="159dp"
+                android:layout_marginBottom="20dp"
+                android:text="Home"
+                android:textColor="@color/white"
+                android:theme="@style/Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.506"
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/tertiary" />
+
+            <TextView
+                android:id="@+id/tv_v_stp_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="134dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="135dp"
+                android:text="@string/settingsHeader"
+                android:theme="@style/TextViewL"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tb_v_stp_toolbar" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nv_v_stp_nav"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:menu="@menu/navigation_menu"
+            app:headerLayout="@layout/nav_header"
+            app:itemTextColor="@color/nav_current_item"
+            app:itemTextAppearance="@style/NavMenu" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="bottom"
+                android:padding="16dp" />
+
+            <TextView
+                android:id="@+id/tv_v_stp_curLoggedIn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/archivo"
+                android:gravity="bottom"
+                android:paddingStart="10sp"
+                android:paddingBottom="10sp"
+                android:text="Logged in as: User"
+                android:textColor="@color/secondary_text_material_light"
+                android:textSize="20sp" />
+
+        </com.google.android.material.navigation.NavigationView>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+    
+</layout>

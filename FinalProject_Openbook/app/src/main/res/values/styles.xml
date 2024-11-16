@@ -25,6 +25,20 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Search MSG Styles -->
+    <style name="searchSuccess">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/archivo</item>
+        <item name="android:textColor">@color/secondary_text_material_light</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="searchError">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/archivo</item>
+        <item name="android:textColor">@color/error</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <!-- Field TVs Styles -->
     <style name="fieldTV">
         <item name="android:textSize">20sp</item>

@@ -73,7 +73,7 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
         // Connect vars
         sp_j_mp_bookList = findViewById(R.id.sp_v_mp_bookList);
         tv_j_mp_addBookMsg = findViewById(R.id.tv_v_mp_addBookMsg);
-        tv_j_mp_error = findViewById(R.id.tv_v_mp_error);
+        tv_j_mp_error = findViewById(R.id.tv_v_stp_error);
         et_j_mp_post = findViewById(R.id.et_v_mp_post);
         btn_j_mp_post = findViewById(R.id.btn_v_mp_post);
         btn_j_mp_home = findViewById(R.id.btn_v_mp_home);

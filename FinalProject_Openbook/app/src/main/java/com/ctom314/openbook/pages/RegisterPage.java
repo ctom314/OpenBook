@@ -8,11 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.ctom314.openbook.Account;
 import com.ctom314.openbook.DBUtils;
@@ -97,7 +93,7 @@ public class RegisterPage extends AppCompatActivity
                 {
                     // Hash password and generate salt
                     byte[] salt = PasswordUtils.generateSalt();
-                    byte[] hash = PasswordUtils.hashPsasword(password, salt);
+                    byte[] hash = PasswordUtils.hashPassword(password, salt);
 
                     // Add user to DB
                     Account account = new Account(name, email, username, hash, salt);

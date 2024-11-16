@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DBUtils extends SQLiteOpenHelper
 {
@@ -256,6 +257,47 @@ public class DBUtils extends SQLiteOpenHelper
         return username;
     }
 
+    /**
+     * Delete an account from the database.
+     * @param userId User ID of the account to delete.
+     */
+    public void deleteAccount(int userId)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Delete all psots from user
+        String query = "DELETE FROM " + POSTS_TABLE + " WHERE userId = ?;";
+        db.execSQL(query, new Object[] {userId});
+
+        // Delete all comments from user
+        query = "DELETE FROM " + COMMENTS_TABLE + " WHERE userId = ?;";
+        db.execSQL(query, new Object[] {userId});
+
+        // Delete account
+        query = "DELETE FROM " + USERS_TABLE + " WHERE userId = ?;";
+        db.execSQL(query, new Object[] {userId});
+
+        db.close();
+    }
+
+    /**
+     * Update an account in the database.
+     * @param a Account object to update in the database.
+     */
+    public void updateAccount(Account a)
+    {
+        int userId = getUserId(a.getUsername());
+       SQLiteDatabase db = this.getWritableDatabase();
+
+         // Update account
+        String query = "UPDATE " + USERS_TABLE + " SET name = ?, email = ?, " +
+            "password_hash = ?, password_salt = ? WHERE userId = ?;";
+        db.execSQL(query, new Object[] {a.getName(), a.getEmail(),
+                a.getPasswordHash(), a.getPasswordSalt(), userId});
+
+        db.close();
+    }
+
     // =============================================================================================
     //                                          BOOKS
     // =============================================================================================
@@ -404,6 +446,74 @@ public class DBUtils extends SQLiteOpenHelper
         db.close();
 
         return exists;
+    }
+
+    /**
+     * Search for books in the database.
+     * @param q Query object with data to search for.
+     * @return ArrayList of Book objects.
+     */
+    public ArrayList<Book> searchBooks(Query q)
+    {
+        ArrayList<Book> books = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Track conditions
+        boolean hasCondition = false;
+
+        // =========================================================================================
+        //                                  Searching Logic
+        // =========================================================================================
+
+        String query = "SELECT * FROM " + BOOKS_TABLE + " WHERE ";
+
+        // Arguments for query
+        List<String> args = new ArrayList<>();
+
+        // Search by title
+        if (!q.getTitle().isEmpty())
+        {
+            query += "title COLLATE NOCASE LIKE ? ";
+            args.add("%" + q.getTitle() + "%");
+            hasCondition = true;
+        }
+
+        // Search by author
+        if (!q.getAuthor().isEmpty())
+        {
+            if (hasCondition)
+            {
+                query += "AND ";
+            }
+
+            query += "author COLLATE NOCASE LIKE ?";
+            args.add("%" + q.getAuthor() + "%");
+        }
+
+        // Finish query
+        query += "ORDER BY title;";
+
+        // =========================================================================================
+
+        // Get books using query
+        Cursor cursor = db.rawQuery(query, args.toArray(new String[0]));
+
+        while (cursor.moveToNext())
+        {
+            // Get book details
+            String title = cursor.getString(1);
+            String author = cursor.getString(2);
+            int year = cursor.getInt(3);
+
+            // Create book object
+            Book b = new Book(title, author, year);
+            books.add(b);
+        }
+
+        cursor.close();
+        db.close();
+
+        return books;
     }
 
     // =============================================================================================
@@ -660,10 +770,10 @@ public class DBUtils extends SQLiteOpenHelper
         {
             // Hash and salt for all dummy accounts
             byte[] salt = PasswordUtils.generateSalt();
-            byte[] hash = PasswordUtils.hashPsasword("password", salt);
+            byte[] hash = PasswordUtils.hashPassword("password", salt);
 
             // Accounts
-            Account test = new Account("John Smith", "jsmith@hotmail.com", "jsmith", PasswordUtils.hashPsasword("1234", salt), salt);
+            Account test = new Account("John Smith", "jsmith@hotmail.com", "jsmith", PasswordUtils.hashPassword("1234", salt), salt);
 
             Account u1 = new Account("Tom Jenkins", "tjenkins@email.com", "tjenkins", hash, salt);
             Account u2 = new Account("John Doe", "jdoe@hotmail.com", "jdoe22", hash, salt);

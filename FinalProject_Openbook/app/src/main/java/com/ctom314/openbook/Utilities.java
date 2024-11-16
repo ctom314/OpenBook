@@ -26,6 +26,8 @@ import com.ctom314.openbook.pages.CatalogPage;
 import com.ctom314.openbook.pages.Homepage;
 import com.ctom314.openbook.pages.LoginPage;
 import com.ctom314.openbook.pages.MakePostPage;
+import com.ctom314.openbook.pages.SearchPage;
+import com.ctom314.openbook.pages.SettingsPage;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -321,7 +323,17 @@ public class Utilities
             intent = new Intent(context, CatalogPage.class);
         }
 
-        // TODO: Make other pages and add them here
+        else if (id == R.id.nav_search)
+        {
+            // Go to search page
+            intent = new Intent(context, SearchPage.class);
+        }
+
+        else if (id == R.id.nav_settings)
+        {
+            // Go to settings page
+            intent = new Intent(context, SettingsPage.class);
+        }
 
         else if (id == R.id.nav_logout)
         {

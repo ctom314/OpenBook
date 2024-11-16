@@ -15,7 +15,7 @@ public class PasswordUtils
      * @param salt The salt to add to the password
      * @return The hashed password
      */
-    public static byte[] hashPsasword(String password, byte[] salt)
+    public static byte[] hashPassword(String password, byte[] salt)
     {
         byte[] hash = null;
 
@@ -64,7 +64,7 @@ public class PasswordUtils
     public static boolean passwordHashesMatch(String enteredPassword, byte[] savedSalt, byte[] savedHash)
     {
         // Hash the password with the salt
-        byte[] enteredHash = hashPsasword(enteredPassword, savedSalt);
+        byte[] enteredHash = hashPassword(enteredPassword, savedSalt);
 
         // Compare the two hashes
         return MessageDigest.isEqual(savedHash, enteredHash);
