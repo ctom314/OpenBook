@@ -10,16 +10,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.ctom314.openbook.Account;
@@ -223,6 +219,9 @@ public class SettingsPage extends AppCompatActivity implements NavigationView.On
                             int userId = dbUtils.getUserId(Utilities.getLoggedInUser(SettingsPage.this));
                             dbUtils.deleteAccount(userId);
 
+                            // Clear logged in user
+                            Utilities.clearLoggedInUser(SettingsPage.this);
+
                             Toast.makeText(SettingsPage.this, "Account deleted successfully", Toast.LENGTH_SHORT).show();
 
                             // Go back to login page
@@ -245,7 +244,7 @@ public class SettingsPage extends AppCompatActivity implements NavigationView.On
             {
                 // Enable edit mode
                 editMode = true;
-                editModeEnabled(editMode);
+                editModeEnabled(true);
             }
         });
     }
@@ -282,10 +281,12 @@ public class SettingsPage extends AppCompatActivity implements NavigationView.On
 
                     // Disable edit mode
                     editMode = false;
-                    editModeEnabled(editMode);
+                    editModeEnabled(false);
 
                     return;
                 }
+
+                a = new Account(name, email, a.getUsername(), a.getPasswordHash(), a.getPasswordSalt());
 
                 // Check if username was changed
                 if (!a.getUsername().equals(username))
@@ -296,19 +297,25 @@ public class SettingsPage extends AppCompatActivity implements NavigationView.On
                         Utilities.showError(tv_j_stp_error, "Username is already taken.");
                         return;
                     }
+
+                    // If username was changed, update account with new username
+                    dbUtils.updateAccount(a, username);
+
+                    // Update logged in user
+                    Utilities.setLoggedInUser(SettingsPage.this, username);
+                }
+                else
+                {
+                    // Update account with same username
+                    dbUtils.updateAccount(a);
                 }
 
-                // TODO: Fix bug where changing username reverts back to old username
-
-                // Update account
-                a = new Account(name, email, username, a.getPasswordHash(), a.getPasswordSalt());
-                dbUtils.updateAccount(a);
 
                 Toast.makeText(SettingsPage.this, "Account updated successfully", Toast.LENGTH_SHORT).show();
 
                 // Disable edit mode
                 editMode = false;
-                editModeEnabled(editMode);
+                editModeEnabled(false);
             }
         });
     }
@@ -323,7 +330,7 @@ public class SettingsPage extends AppCompatActivity implements NavigationView.On
             {
                 // Disable edit mode
                 editMode = false;
-                editModeEnabled(editMode);
+                editModeEnabled(false);
 
                 // Reset ETs
                 setupETs();

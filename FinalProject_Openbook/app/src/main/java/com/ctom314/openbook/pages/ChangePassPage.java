@@ -10,15 +10,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.ctom314.openbook.Account;
@@ -28,8 +24,6 @@ import com.ctom314.openbook.R;
 import com.ctom314.openbook.Result;
 import com.ctom314.openbook.Utilities;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.Arrays;
 
 public class ChangePassPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {

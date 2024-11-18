@@ -15,7 +15,12 @@ public class PostListAdapter extends BaseAdapter
     ArrayList<Post> posts;
     DBUtils dbUtils;
 
-    // Constructor
+    /**
+     * Constructor
+     * @param c Context of the activity
+     * @param p ArrayList of Post objects
+     * @param db DBUtils object
+     */
     public PostListAdapter(Context c, ArrayList<Post> p, DBUtils db)
     {
         context = c;

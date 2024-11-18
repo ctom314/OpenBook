@@ -1,7 +1,5 @@
 package com.ctom314.openbook;
 
-import android.util.Log;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -32,7 +30,8 @@ public class PasswordUtils
         }
         catch (NoSuchAlgorithmException e)
         {
-            Log.e("DBUtils", "NoSuchAlgorithmException: " + e.getMessage());
+            // Catch exception if SHA-256 is not found
+            Result.failure("PasswordUtils: NoSuchAlgorithmException: " + e.getMessage());
         }
 
         return hash;

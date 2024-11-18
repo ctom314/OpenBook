@@ -8,11 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.ctom314.openbook.DBUtils;
 import com.ctom314.openbook.R;
@@ -63,7 +59,7 @@ public class LoginPage extends AppCompatActivity
         registerButtonHandler();
     }
 
-    // Button: Login
+    // BTN: Login
     private void loginButtonHandler()
     {
         btn_j_lp_login.setOnClickListener(new View.OnClickListener()
@@ -89,7 +85,7 @@ public class LoginPage extends AppCompatActivity
         });
     }
 
-    // Button: Register
+    // BTN: Register
     private void registerButtonHandler()
     {
         tv_j_lp_registerMsg.setOnClickListener(new View.OnClickListener()

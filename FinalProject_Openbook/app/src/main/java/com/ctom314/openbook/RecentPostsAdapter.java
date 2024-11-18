@@ -2,9 +2,7 @@ package com.ctom314.openbook;
 
 import android.content.Context;
 import android.text.SpannableString;
-import android.text.TextUtils;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,12 @@ public class RecentPostsAdapter extends BaseAdapter
     ArrayList<Post> posts;
     DBUtils dbUtils;
 
-    // Constructor
+    /**
+     * Constructor
+     * @param c Context of the activity
+     * @param p ArrayList of Post objects
+     * @param db DBUtils object
+     */
     public RecentPostsAdapter(Context c, ArrayList<Post> p, DBUtils db)
     {
         context = c;

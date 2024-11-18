@@ -66,7 +66,7 @@ public class RegisterPage extends AppCompatActivity
         backButtonHandler();
     }
 
-    // Button: Register
+    // BTN: Register
     private void registerButtonHandler()
     {
         btn_j_rp_register.setOnClickListener(new View.OnClickListener()
@@ -112,7 +112,7 @@ public class RegisterPage extends AppCompatActivity
         });
     }
 
-    // Button: Back
+    // BTN: Back
     private void backButtonHandler()
     {
         btn_j_rp_back.setOnClickListener(new View.OnClickListener()

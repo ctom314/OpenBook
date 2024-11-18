@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.TextPaint;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -123,6 +122,7 @@ public class Utilities
         }
         catch (NumberFormatException e)
         {
+            // Not a number
             return false;
         }
     }
@@ -271,7 +271,7 @@ public class Utilities
             else
             {
                 // No TV found. Return original string
-                Log.e("Utilities", "ShortenString: No TextView found in Toolbar. Cannot shorten string.");
+                Result.failure("ShortenString: No TextView found in Toolbar. Cannot shorten string.");
                 return str;
             }
 
@@ -279,7 +279,7 @@ public class Utilities
         else
         {
             // Not TV or TB. Return original string
-            Log.e("Utilities", "ShortenString: View is not a TextView or Toolbar. Cannot shorten string.");
+            Result.failure("ShortenString: View is not a TextView or Toolbar. Cannot shorten string.");
             return str;
         }
 
@@ -416,6 +416,7 @@ public class Utilities
      * @param second Second
      * @return String timestamp
      */
+    @SuppressLint("DefaultLocale")
     public static String makeTimestamp(int year, int month, int day, int hour, int minute, int second)
     {
         return String.format("%04d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second);
@@ -465,33 +466,44 @@ public class Utilities
         // return based on time
         if (mins < 60)
         {
+            // Minutes
             String ago = mins == 1 ? " minute ago" : " minutes ago";
             return mins + ago;
         }
         else if (hours < 24)
         {
+            // Hours
             String ago = hours == 1 ? " hour ago" : " hours ago";
             return hours + ago;
         }
         else if (days < 7)
         {
+            // Days
             String ago = days == 1 ? " day ago" : " days ago";
             return days + ago;
         }
-        else if (weeks < 4)
+        else if (months < 1)
         {
+            // Weeks
             String ago = weeks == 1 ? " week ago" : " weeks ago";
             return weeks + ago;
         }
         else if (months < 12)
         {
+            // Months
             String ago = months == 1 ? " month ago" : " months ago";
             return months + ago;
         }
-        else
+        else if (years >= 1)
         {
+            // Years
             String ago = years == 1 ? " year ago" : " years ago";
             return String.format("%.1f", years) + ago;
+        }
+        else
+        {
+            // Unknown time. Shouldn't happen
+            return "Unknown";
         }
     }
 

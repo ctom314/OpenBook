@@ -86,7 +86,6 @@ public class AddBookPage extends AppCompatActivity implements NavigationView.OnN
         // Setup intents
         intent_j_makePost = new Intent(AddBookPage.this, MakePostPage.class);
 
-
         // Button Handlers
         addBookButtonHandler();
         backButtonHandler();

@@ -1,9 +1,6 @@
 package com.ctom314.openbook;
 
 import android.content.Context;
-import android.text.SpannableString;
-import android.text.TextUtils;
-import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +16,12 @@ public class RepliesListAdapter extends BaseAdapter
     ArrayList<Comment> comments;
     DBUtils dbUtils;
 
-    // Constructor
+    /**
+     * Constructor
+     * @param c Context
+     * @param r ArrayList of comments
+     * @param db Database utility object
+     */
     public RepliesListAdapter(Context c, ArrayList<Comment> r, DBUtils db)
     {
         context = c;

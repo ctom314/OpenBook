@@ -9,23 +9,17 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.ctom314.openbook.Book;
 import com.ctom314.openbook.BookListAdapter;
-import com.ctom314.openbook.Comment;
 import com.ctom314.openbook.DBUtils;
 import com.ctom314.openbook.R;
-import com.ctom314.openbook.RepliesListAdapter;
 import com.ctom314.openbook.Utilities;
 import com.google.android.material.navigation.NavigationView;
 

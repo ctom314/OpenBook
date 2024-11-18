@@ -8,13 +8,8 @@ package com.ctom314.openbook;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.ctom314.openbook.pages.Homepage;
 import com.ctom314.openbook.pages.LoginPage;
@@ -49,12 +44,10 @@ public class MainActivity extends AppCompatActivity
         // Redirect to login page if no user is logged in
         if (user == null)
         {
-            Log.d("START PAGE", "No user logged in. Redirecting to login page.");
             startActivity(intent_j_loginPage);
         }
         else
         {
-            Log.d("START PAGE", "User " + user + " is logged in. Redirecting to homepage.");
             startActivity(intent_j_homepage);
         }
 

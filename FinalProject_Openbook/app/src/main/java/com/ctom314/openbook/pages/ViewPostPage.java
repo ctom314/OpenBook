@@ -1,10 +1,11 @@
 package com.ctom314.openbook.pages;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,9 +18,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.ctom314.openbook.Comment;
 import com.ctom314.openbook.DBUtils;
 import com.ctom314.openbook.Post;
-import com.ctom314.openbook.Comment;
 import com.ctom314.openbook.R;
 import com.ctom314.openbook.RepliesListAdapter;
 import com.ctom314.openbook.Utilities;
@@ -125,11 +126,11 @@ public class ViewPostPage extends AppCompatActivity implements NavigationView.On
         timestampEventListener();
         editButtonHandler();
         replyButtonHandler();
+        commentListHandler();
 
         // Setup replies list
         comments = dbUtils.getPostReplies(dbUtils.getPostId(post.getUsername(), post.getTimestamp()));
 
-        Log.d("ViewPostPage", "# Comments: " + comments.size());
         fillListView();
     }
 
@@ -191,7 +192,7 @@ public class ViewPostPage extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    // Tap on timestamp to get full date
+    // TV: Tap on timestamp to get full date
     private void timestampEventListener()
     {
         tv_j_vp_timestamp.setOnClickListener(new View.OnClickListener()
@@ -207,7 +208,7 @@ public class ViewPostPage extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    // Press on toolbar to see full book title
+    // TB: Press on toolbar to see full book title
     private void toolbarEventListener()
     {
         tb_j_vp_toolbar.setOnClickListener(new View.OnClickListener()
@@ -223,7 +224,7 @@ public class ViewPostPage extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    // Button: Edit
+    // BTN: Edit
     private void editButtonHandler()
     {
         btn_j_vp_editPost.setOnClickListener(new View.OnClickListener()
@@ -241,7 +242,7 @@ public class ViewPostPage extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    // Button: Reply (Bot OP and non-OP version)
+    // BTN: Reply (Bot OP and non-OP version)
     public void replyButtonHandler()
     {
         btn_j_vp_replyOP.setOnClickListener(new View.OnClickListener()
@@ -269,6 +270,50 @@ public class ViewPostPage extends AppCompatActivity implements NavigationView.On
                 // Go to reply page
                 startActivity(intent_j_reply);
                 finish();
+            }
+        });
+    }
+
+    // LV: Tapping on user's comment will allow them to delete it
+    private void commentListHandler()
+    {
+        lv_j_vp_replies.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener()
+        {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                String curUser = Utilities.getLoggedInUser(ViewPostPage.this);
+
+                // Get comment
+                Comment c = comments.get(i);
+
+                // If user is OP, allow deletion
+                if (curUser.equals(c.getUsername()))
+                {
+                    // Prompt user to delete comment
+                    new AlertDialog.Builder(ViewPostPage.this)
+                            .setTitle("Delete Comment")
+                            .setMessage("Do you want to delete your comment?")
+                            .setPositiveButton("Yes", (dialog, which) -> {
+
+                                // Delete comment
+                                dbUtils.deleteComment(dbUtils.getCommentId(c.getUsername(), c.getTimestamp()));
+
+                                // Refresh list
+                                comments = dbUtils.getPostReplies(dbUtils.getPostId(post.getUsername(), post.getTimestamp()));
+                                fillListView();
+
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
+
+                }
+                else
+                {
+                    Toast.makeText(ViewPostPage.this, "You cannot delete other user's comments.", Toast.LENGTH_SHORT).show();
+                }
+
+                return true;
             }
         });
     }

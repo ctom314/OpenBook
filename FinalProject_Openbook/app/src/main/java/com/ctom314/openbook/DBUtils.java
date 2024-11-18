@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +138,6 @@ public class DBUtils extends SQLiteOpenHelper
             {
                 // Password does not match
                 // Show vague error message to prevent brute force attacks
-                Log.e("DBUtils", "Password does not match.");
                 result = Result.failure("Username or password is incorrect.");
             }
 
@@ -147,7 +145,6 @@ public class DBUtils extends SQLiteOpenHelper
         else
         {
             // Account not found
-            Log.e("DBUtils", "Account not found.");
             result = Result.failure("Username or password is incorrect.");
         }
 
@@ -281,19 +278,38 @@ public class DBUtils extends SQLiteOpenHelper
     }
 
     /**
-     * Update an account in the database.
-     * @param a Account object to update in the database.
+     * Update an account in the database, excluding the username.
+     * @param account Account object to update in the database.
      */
-    public void updateAccount(Account a)
+    public void updateAccount(Account account)
     {
-        int userId = getUserId(a.getUsername());
-       SQLiteDatabase db = this.getWritableDatabase();
+        int userId = getUserId(account.getUsername());
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Update account
+        String query = "UPDATE " + USERS_TABLE + " SET name = ?, email = ?, password_hash = ?, " +
+                "password_salt = ? WHERE userId = ?;";
+        db.execSQL(query, new Object[] {account.getName(), account.getEmail(),
+                        account.getPasswordHash(), account.getPasswordSalt(), userId});
+
+        db.close();
+    }
+
+    /**
+     * Update an account in the database, including the username.
+     * @param account Account object to update in the database.
+     * @param newUsername New username for the account.
+     */
+    public void updateAccount(Account account, String newUsername)
+    {
+        int userId = getUserId(account.getUsername());
+        SQLiteDatabase db = this.getWritableDatabase();
 
          // Update account
-        String query = "UPDATE " + USERS_TABLE + " SET name = ?, email = ?, " +
-            "password_hash = ?, password_salt = ? WHERE userId = ?;";
-        db.execSQL(query, new Object[] {a.getName(), a.getEmail(),
-                a.getPasswordHash(), a.getPasswordSalt(), userId});
+        String query = "UPDATE " + USERS_TABLE + " SET name = ?, email = ?, username = ?, " +
+                "password_hash = ?, password_salt = ? WHERE userId = ?;";
+        db.execSQL(query, new Object[] {account.getName(), account.getEmail(), newUsername,
+                account.getPasswordHash(), account.getPasswordSalt(), userId});
 
         db.close();
     }
@@ -528,7 +544,6 @@ public class DBUtils extends SQLiteOpenHelper
     {
         // Get userId
         int userId = getUserId(p.getUsername());
-        Log.d("DBUtils", "User ID: " + userId);
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -720,6 +735,36 @@ public class DBUtils extends SQLiteOpenHelper
     }
 
     /**
+     * Get the comment Id using the username and timestamp.
+     * @param username Username of the account.
+     * @param timestamp Timestamp of the comment.
+     * @return Comment ID if found, -1 otherwise.
+     */
+    public int getCommentId(String username, String timestamp)
+    {
+        int commentId = -1;
+
+        // Get userId
+        int userId = getUserId(username);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Get comment using userId and timestamp
+        String query = "SELECT commentId FROM " + COMMENTS_TABLE + " WHERE userId = ? AND timestamp = ?;";
+        Cursor cursor = db.rawQuery(query, new String[] {String.valueOf(userId), timestamp});
+
+        if (cursor.moveToFirst())
+        {
+            commentId = cursor.getInt(0);
+        }
+
+        cursor.close();
+        db.close();
+
+        return commentId;
+    }
+
+    /**
      * Get all replies from a post.
      * @param postId Post ID of the post to get replies from.
      * @return ArrayList of Comment objects.
@@ -749,6 +794,21 @@ public class DBUtils extends SQLiteOpenHelper
         db.close();
 
         return comments;
+    }
+
+    /**
+     * Delete a comment from the database.
+     * @param commentId Comment ID of the comment to delete.
+     */
+    public void deleteComment(int commentId)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Delete comment
+        String query = "DELETE FROM " + COMMENTS_TABLE + " WHERE commentId = ?;";
+        db.execSQL(query, new Object[] {commentId});
+
+        db.close();
     }
 
     // =============================================================================================
@@ -784,6 +844,16 @@ public class DBUtils extends SQLiteOpenHelper
             // No post account. Just replies
             Account u6 = new Account("Tim Trout", "ttrout@outlook.com", "ttrout", hash, salt);
 
+            Account u7 = new Account("Alice Morgan", "amorgan22@yahoo.com", "alice.morgan", hash, salt);
+            Account u8 = new Account("Steve Harper", "sharp12@outlook.com", "sharp12", hash, salt);
+            Account u9 = new Account("Rachel Green", "rgreen89@gmail.com", "rachel.green", hash, salt);
+            Account u10 = new Account("Mike Ross", "mike.ross@protonmail.com", "rosslawyer", hash, salt);
+            Account u11 = new Account("Sara Evans", "sevans1234@gmail.com", "sara.evans", hash, salt);
+            Account u12 = new Account("David Johnson", "djohnson45@icloud.com", "davey45", hash, salt);
+            Account u13 = new Account("Linda Carter", "lcarter77@hotmail.com", "lcarter77", hash, salt);
+            Account u14 = new Account("Kevin Brown", "kevin.brown@mail.com", "kevinb", hash, salt);
+            Account u15 = new Account("Emily Stone", "estone90@gmail.com", "emstone90", hash, salt);
+
             // Add accounts to database
             addAccount(test);
 
@@ -793,6 +863,15 @@ public class DBUtils extends SQLiteOpenHelper
             addAccount(u4);
             addAccount(u5);
             addAccount(u6);
+            addAccount(u7);
+            addAccount(u8);
+            addAccount(u9);
+            addAccount(u10);
+            addAccount(u11);
+            addAccount(u12);
+            addAccount(u13);
+            addAccount(u14);
+            addAccount(u15);
         }
     }
 
@@ -811,6 +890,16 @@ public class DBUtils extends SQLiteOpenHelper
             // Long title
             Book b6 = new Book("My Grandmother Asked Me to Tell You She's Sorry", "Fredrik Backman", 2013);
 
+            Book b7 = new Book("Pride and Prejudice", "Jane Austen", 1813);
+            Book b8 = new Book("Moby-Dick", "Herman Melville", 1851);
+            Book b9 = new Book("War and Peace", "Leo Tolstoy", 1869);
+            Book b10 = new Book("The Hobbit", "J.R.R. Tolkien", 1937);
+            Book b11 = new Book("Crime and Punishment", "Fyodor Dostoevsky", 1866);
+            Book b12 = new Book("The Adventures of Huckleberry Finn", "Mark Twain", 1884);
+            Book b13 = new Book("Brave New World", "Aldous Huxley", 1932);
+            Book b14 = new Book("The Lord of the Rings", "J.R.R. Tolkien", 1954);
+
+
             // Add books to database
             addBook(b1);
             addBook(b2);
@@ -818,6 +907,14 @@ public class DBUtils extends SQLiteOpenHelper
             addBook(b4);
             addBook(b5);
             addBook(b6);
+            addBook(b7);
+            addBook(b8);
+            addBook(b9);
+            addBook(b10);
+            addBook(b11);
+            addBook(b12);
+            addBook(b13);
+            addBook(b14);
         }
     }
 
@@ -833,6 +930,20 @@ public class DBUtils extends SQLiteOpenHelper
             String t4 = Utilities.makeTimestamp(2024, 11, 8, 9, 34, 12);
             String t5 = Utilities.makeTimestamp(2024, 11, 1, 17, 59, 53);
             String t6 = Utilities.makeTimestamp(2024, 11, 5, 8, 12, 34);
+            String t7 = Utilities.makeTimestamp(2024, 11, 10, 10, 45, 15);
+            String t8 = Utilities.makeTimestamp(2024, 11, 11, 14, 30, 10);
+            String t9 = Utilities.makeTimestamp(2024, 11, 12, 8, 15, 45);
+            String t10 = Utilities.makeTimestamp(2024, 11, 13, 16, 20, 5);
+            String t11 = Utilities.makeTimestamp(2024, 11, 14, 19, 10, 30);
+            String t12 = Utilities.makeTimestamp(2024, 11, 15, 11, 5, 50);
+            String t13 = Utilities.makeTimestamp(2024, 11, 16, 7, 25, 10);
+            String t14 = Utilities.makeTimestamp(2024, 11, 16, 20, 45, 15);
+            String t15 = Utilities.makeTimestamp(2024, 11, 17, 15, 10, 40);
+            String t16 = Utilities.makeTimestamp(2024, 11, 18, 9, 55, 25);
+            String t17 = Utilities.makeTimestamp(2024, 10, 19, 12, 30, 35);
+            String t18 = Utilities.makeTimestamp(2024, 10, 20, 10, 15, 10);
+            String t19 = Utilities.makeTimestamp(2024, 9, 21, 14, 50, 5);
+            String t20 = Utilities.makeTimestamp(2023, 10, 22, 17, 20, 55);
 
             // Posts
             Post p1 = new Post(1, "tjenkins", t1, "This book is amazing!");
@@ -841,6 +952,20 @@ public class DBUtils extends SQLiteOpenHelper
             Post p4 = new Post(4, "bwilly579", t4, "I'm not a fan of this book.");
             Post p5 = new Post(5, "cfrank", t5, "This book is a classic!");
             Post p6 = new Post(3, "tjenkins", t6, "I'm not sure how I feel about this book.");
+            Post p7 = new Post(6, "alice.morgan", t7, "This book made me think deeply about life.");
+            Post p8 = new Post(7, "sharp12", t8, "I couldn't finish it, but the writing was excellent.");
+            Post p9 = new Post(8, "rachel.green", t9, "The character development was fantastic!");
+            Post p10 = new Post(9, "rosslawyer", t10, "A must-read for anyone who loves history.");
+            Post p11 = new Post(10, "sara.evans", t11, "I learned so much from this book!");
+            Post p12 = new Post(11, "davey45", t12, "The plot twists were mind-blowing.");
+            Post p13 = new Post(12, "lcarter77", t13, "A little slow at first, but worth it in the end.");
+            Post p14 = new Post(13, "kevinb", t14, "This book changed my perspective on many things.");
+            Post p15 = new Post(14, "emstone90", t15, "The imagery was so vivid, it felt like I was there.");
+            Post p16 = new Post(1, "alice.morgan", t16, "One of my all-time favorites!");
+            Post p17 = new Post(2, "sharp12", t17, "I found this book surprisingly relatable.");
+            Post p18 = new Post(3, "rachel.green", t18, "A gripping story from start to finish.");
+            Post p19 = new Post(4, "rosslawyer", t19, "I didn't enjoy the ending, but overall a great read.");
+            Post p20 = new Post(5, "sara.evans", t20, "I couldn't put it down—read it in one sitting!");
 
             // Add posts to database
             addPost(p1);
@@ -849,6 +974,20 @@ public class DBUtils extends SQLiteOpenHelper
             addPost(p4);
             addPost(p5);
             addPost(p6);
+            addPost(p7);
+            addPost(p8);
+            addPost(p9);
+            addPost(p10);
+            addPost(p11);
+            addPost(p12);
+            addPost(p13);
+            addPost(p14);
+            addPost(p15);
+            addPost(p16);
+            addPost(p17);
+            addPost(p18);
+            addPost(p19);
+            addPost(p20);
         }
     }
 
@@ -884,6 +1023,41 @@ public class DBUtils extends SQLiteOpenHelper
             String t6_2 = Utilities.makeTimestamp(2024, 11, 5, 14, 15, 0);
             String t6_3 = Utilities.makeTimestamp(2024, 11, 6, 9, 48, 22);
 
+            String t7_1 = Utilities.makeTimestamp(2024, 11, 10, 11, 0, 45);
+            String t7_2 = Utilities.makeTimestamp(2024, 11, 10, 12, 15, 30);
+
+            String t8_1 = Utilities.makeTimestamp(2024, 11, 11, 15, 0, 10);
+            String t8_2 = Utilities.makeTimestamp(2024, 11, 11, 16, 45, 5);
+
+            String t9_1 = Utilities.makeTimestamp(2024, 11, 12, 9, 30, 40);
+
+            String t10_1 = Utilities.makeTimestamp(2024, 11, 13, 17, 5, 25);
+            String t10_2 = Utilities.makeTimestamp(2024, 11, 13, 18, 20, 50);
+
+            String t11_1 = Utilities.makeTimestamp(2024, 11, 14, 20, 15, 35);
+            String t11_2 = Utilities.makeTimestamp(2024, 11, 14, 21, 5, 10);
+
+            String t12_1 = Utilities.makeTimestamp(2024, 11, 15, 12, 15, 45);
+
+            String t13_1 = Utilities.makeTimestamp(2024, 11, 16, 8, 30, 20);
+            String t13_2 = Utilities.makeTimestamp(2024, 11, 16, 21, 10, 5);
+
+            String t14_1 = Utilities.makeTimestamp(2024, 11, 17, 16, 0, 40);
+
+            String t15_1 = Utilities.makeTimestamp(2024, 11, 18, 10, 20, 15);
+            String t15_2 = Utilities.makeTimestamp(2024, 11, 18, 11, 45, 5);
+
+            String t16_1 = Utilities.makeTimestamp(2024, 11, 18, 13, 0, 25);
+            String t16_2 = Utilities.makeTimestamp(2024, 11, 18, 14, 5, 50);
+
+            String t17_1 = Utilities.makeTimestamp(2024, 10, 20, 10, 25, 15);
+
+            String t18_1 = Utilities.makeTimestamp(2024, 10, 21, 15, 30, 5);
+
+            String t19_1 = Utilities.makeTimestamp(2024, 9, 22, 18, 10, 40);
+
+            String t20_1 = Utilities.makeTimestamp(2023, 11, 23, 12, 25, 55);
+
             // Comments
             Comment c1_1 = new Comment("jdoe22", t1_1, "I agree!", 1);
             Comment c1_2 = new Comment("bwilly579", t1_2, "I disagree.", 1);
@@ -911,6 +1085,41 @@ public class DBUtils extends SQLiteOpenHelper
             Comment c6_2 = new Comment("jdoe22", t6_2, "This book is a cult classic!", 6);
             Comment c6_3 = new Comment("cfrank", t6_3, "George Orwell was ahead of his time.", 6);
 
+            Comment c7_1 = new Comment("sharp12", t7_1, "That's a great perspective!", 7);
+            Comment c7_2 = new Comment("rachel.green", t7_2, "I felt the same way.", 7);
+
+            Comment c8_1 = new Comment("rosslawyer", t8_1, "I couldn't agree more.", 8);
+            Comment c8_2 = new Comment("alice.morgan", t8_2, "The writing was beautiful.", 8);
+
+            Comment c9_1 = new Comment("davey45", t9_1, "Absolutely loved the characters!", 9);
+
+            Comment c10_1 = new Comment("sara.evans", t10_1, "This book was so informative.", 10);
+            Comment c10_2 = new Comment("kevinb", t10_2, "History buffs will adore this one.", 10);
+
+            Comment c11_1 = new Comment("emstone90", t11_1, "Such a great learning experience!", 11);
+            Comment c11_2 = new Comment("lcarter77", t11_2, "I recommend this to everyone.", 11);
+
+            Comment c12_1 = new Comment("alice.morgan", t12_1, "Those twists were shocking!", 12);
+
+            Comment c13_1 = new Comment("sharp12", t13_1, "A slow start, but a strong finish.", 13);
+            Comment c13_2 = new Comment("kevinb", t13_2, "I agree, it was worth it.", 13);
+
+            Comment c14_1 = new Comment("rosslawyer", t14_1, "This book was truly inspiring.", 14);
+
+            Comment c15_1 = new Comment("sara.evans", t15_1, "The descriptions were so vivid!", 15);
+            Comment c15_2 = new Comment("rachel.green", t15_2, "It felt like a journey.", 15);
+
+            Comment c16_1 = new Comment("emstone90", t16_1, "I re-read this every year.", 16);
+            Comment c16_2 = new Comment("alice.morgan", t16_2, "It's one of my all-time favorites.", 16);
+
+            Comment c17_1 = new Comment("sharp12", t17_1, "Very relatable content.", 17);
+
+            Comment c18_1 = new Comment("kevinb", t18_1, "A page-turner, for sure.", 18);
+
+            Comment c19_1 = new Comment("sara.evans", t19_1, "The ending left me wanting more.", 19);
+
+            Comment c20_1 = new Comment("rosslawyer", t20_1, "One of the best books I've read recently.", 20);
+
             // Add comments to database
             addComment(c1_1);
             addComment(c1_2);
@@ -937,6 +1146,41 @@ public class DBUtils extends SQLiteOpenHelper
             addComment(c6_1);
             addComment(c6_2);
             addComment(c6_3);
+
+            addComment(c7_1);
+            addComment(c7_2);
+
+            addComment(c8_1);
+            addComment(c8_2);
+
+            addComment(c9_1);
+
+            addComment(c10_1);
+            addComment(c10_2);
+
+            addComment(c11_1);
+            addComment(c11_2);
+
+            addComment(c12_1);
+
+            addComment(c13_1);
+            addComment(c13_2);
+
+            addComment(c14_1);
+
+            addComment(c15_1);
+            addComment(c15_2);
+
+            addComment(c16_1);
+            addComment(c16_2);
+
+            addComment(c17_1);
+
+            addComment(c18_1);
+
+            addComment(c19_1);
+
+            addComment(c20_1);
         }
     }
 

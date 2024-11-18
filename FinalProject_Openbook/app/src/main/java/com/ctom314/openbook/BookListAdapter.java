@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,7 +15,12 @@ public class BookListAdapter extends BaseAdapter
     ArrayList<Book> books;
     DBUtils dbUtils;
 
-    // Constructor
+    /**
+     * Constructor
+     * @param c Context
+     * @param b ArrayList of books
+     * @param db Database utility
+     */
     public BookListAdapter(Context c, ArrayList<Book> b, DBUtils db)
     {
         context = c;

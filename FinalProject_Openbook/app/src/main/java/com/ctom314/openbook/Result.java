@@ -1,42 +1,31 @@
 package com.ctom314.openbook;
 
+import android.util.Log;
+
 public class Result
 {
     // For account login, return a result based on success or failure
 
     private final boolean success;
-    private final String message;
 
-    public Result(boolean s, String m)
+    public Result(boolean s)
     {
         success = s;
-        message = m;
     }
 
     public static Result success()
     {
-        return new Result(true, null);
+        return new Result(true);
     }
 
-    public static Result failure(String m)
+    public static Result failure(String message)
     {
-        return new Result(false, m);
+        Log.e("Result", message);
+        return new Result(false);
     }
 
     public boolean isSuccess()
     {
         return success;
-    }
-
-    public String getMessage()
-    {
-        if (!success)
-        {
-            return message;
-        }
-        else
-        {
-            return null;
-        }
     }
 }

@@ -7,7 +7,12 @@ public class Book
     private String author;
     private int year;
 
-    // Constructor
+    /**
+     * Constructor
+     * @param t Title
+     * @param a Author
+     * @param y Year
+     */
     public Book(String t, String a, int y)
     {
         title = t;

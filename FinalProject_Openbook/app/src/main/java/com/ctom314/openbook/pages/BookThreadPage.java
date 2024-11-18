@@ -18,8 +18,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.ctom314.openbook.Book;
-import com.ctom314.openbook.BookListAdapter;
 import com.ctom314.openbook.DBUtils;
 import com.ctom314.openbook.Post;
 import com.ctom314.openbook.PostListAdapter;

@@ -153,7 +153,7 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    // Button: Post
+    // BTN: Post
     private void postButtonHandler()
     {
         btn_j_mp_post.setOnClickListener(new View.OnClickListener()
@@ -166,7 +166,7 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    // Button: Home
+    // BTN: Home
     private void homeButtonHandler()
     {
         btn_j_mp_home.setOnClickListener(new View.OnClickListener()
@@ -181,7 +181,7 @@ public class MakePostPage extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    // Button: Add Book
+    // TV: Add Book Button
     private void addBookButtonHandler()
     {
         tv_j_mp_addBookMsg.setOnClickListener(new View.OnClickListener()

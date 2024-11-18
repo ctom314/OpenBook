@@ -1,40 +1,30 @@
 package com.ctom314.openbook.pages;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.ctom314.openbook.Comment;
 import com.ctom314.openbook.DBUtils;
 import com.ctom314.openbook.Post;
 import com.ctom314.openbook.R;
-import com.ctom314.openbook.RepliesListAdapter;
 import com.ctom314.openbook.Utilities;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.ArrayList;
 
 public class EditPostPage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {

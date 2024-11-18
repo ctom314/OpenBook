@@ -1,7 +1,6 @@
 package com.ctom314.openbook;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,13 @@ public class BookTitleAdapter extends ArrayAdapter<String>
 {
     private final int maxWidth;
 
+    /**
+     * Constructor
+     * @param context The context
+     * @param resource The resource
+     * @param objects The list of objects
+     * @param maxWidth The maximum width of the text
+     */
     public BookTitleAdapter(Context context, int resource, List<String> objects, int maxWidth)
     {
         super(context, resource, objects);
@@ -56,6 +62,10 @@ public class BookTitleAdapter extends ArrayAdapter<String>
         return view;
     }
 
+    /**
+     * Shortens the text if it's too long
+     * @param tv The text view
+     */
     private void shortenText(TextView tv)
     {
         if (tv != null)
