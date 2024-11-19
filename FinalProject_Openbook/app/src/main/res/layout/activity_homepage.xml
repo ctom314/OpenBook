@@ -25,7 +25,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="Welcome, User" />
+                app:title="Welcome, User"
+                app:titleTextColor="@color/secondary_text_material_light" />
 
             <Button
                 android:id="@+id/btn_v_hp_makePost"

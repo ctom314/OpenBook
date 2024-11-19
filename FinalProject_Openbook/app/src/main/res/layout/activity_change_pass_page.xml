@@ -25,7 +25,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="Change Password" />
+                app:title="Change Password"
+                app:titleTextColor="@color/secondary_text_material_light" />
 
             <TextView
                 android:id="@+id/tv_v_cpp_oldPassword"
@@ -51,6 +52,7 @@
                 android:inputType="textPassword"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:textColor="@color/secondary_text_material_light"
                 android:theme="@style/EditText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_v_cpp_oldPassword"
@@ -80,6 +82,7 @@
                 android:inputType="textPassword"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:textColor="@color/secondary_text_material_light"
                 android:theme="@style/EditText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -110,6 +113,7 @@
                 android:inputType="textPassword"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:textColor="@color/secondary_text_material_light"
                 android:theme="@style/EditText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_v_cpp_confirm"

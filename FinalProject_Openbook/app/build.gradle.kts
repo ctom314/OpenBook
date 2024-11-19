@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -10,8 +12,8 @@ android {
         applicationId = "com.ctom314.openbook"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -25,6 +27,19 @@ android {
             )
         }
     }
+
+    // Set the output file name for the APK
+    applicationVariants.all {
+        outputs.all {
+            this as BaseVariantOutputImpl
+            val appName = "openbook"
+            val version = versionName.replace(".", "-")
+            val buildType = buildType.name
+
+            outputFileName = "${appName}_v${version}_${buildType}.apk"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8

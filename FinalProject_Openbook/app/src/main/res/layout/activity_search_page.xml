@@ -25,7 +25,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="Search" />
+                app:title="Search"
+                app:titleTextColor="@color/secondary_text_material_light" />
 
             <TextView
                 android:id="@+id/tv_v_sp_title"
@@ -51,6 +52,7 @@
                 android:inputType="textCapWords"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:textColor="@color/secondary_text_material_light"
                 android:theme="@style/EditText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_v_sp_title"
@@ -80,6 +82,7 @@
                 android:inputType="textPersonName"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:textColor="@color/secondary_text_material_light"
                 android:theme="@style/EditText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

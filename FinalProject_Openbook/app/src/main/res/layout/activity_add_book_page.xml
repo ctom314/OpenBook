@@ -25,7 +25,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="Add Book" />
+                app:title="Add Book"
+                app:titleTextColor="@color/secondary_text_material_light" />
 
             <EditText
                 android:id="@+id/et_v_ab_year"
@@ -39,6 +40,7 @@
                 android:inputType="number"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:textColor="@color/secondary_text_material_light"
                 android:theme="@style/EditText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -69,6 +71,7 @@
                 android:inputType="textPersonName"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:textColor="@color/secondary_text_material_light"
                 android:theme="@style/EditText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -99,6 +102,7 @@
                 android:inputType="textCapWords"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:textColor="@color/secondary_text_material_light"
                 android:theme="@style/EditText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_v_ab_title"
