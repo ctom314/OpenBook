@@ -25,12 +25,14 @@ To use this app:
 ### Post Details
 <img src="https://github.com/user-attachments/assets/8ebaea08-e685-495c-8c95-cda393110486" width=50% />
 
-## Navigation Menu
+### Navigation Menu
 <img src="https://github.com/user-attachments/assets/be67a194-33cd-42e6-9cf5-8518a2127cd3" width=50% />
 
 ### Catalog
 <img src="https://github.com/user-attachments/assets/a0d7f6c7-dde0-4283-96ba-f03ec1b95be3" width=50% />
 
-## Search
+### Search
 <img src="https://github.com/user-attachments/assets/34f5e2c7-da6d-4a4a-aa2e-7677ddf5dc2e" width=50% />
 
+## Credits
+- [Pictogrammers](https://pictogrammers.com/) - Material Design Icons used for the Navigation Menu
