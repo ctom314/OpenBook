@@ -1,4 +1,10 @@
-# OpenBook
+<p align="center">
+<img src="https://github.com/user-attachments/assets/5bcd1c6f-7c59-4f7b-bd34-a9d0e0819cf0" align="center" />
+</p>
+
+<h1 align="center">
+OpenBook
+</h1>
 
 ## Description
 This is an Android app that lets you communicate with other book lovers. Book Club, but on the go! The main features of the app are:
@@ -35,4 +41,4 @@ To use this app:
 <img src="https://github.com/user-attachments/assets/34f5e2c7-da6d-4a4a-aa2e-7677ddf5dc2e" width=50% />
 
 ## Credits
-- [Pictogrammers](https://pictogrammers.com/) - Material Design Icons used for the Navigation Menu
+- [Pictogrammers](https://pictogrammers.com/) - Material Design Icons: Navigation Menu icons, Original Poster in Post Details, App/Banner Logo (The book).
